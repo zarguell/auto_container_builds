@@ -30,7 +30,8 @@ jobs:
         name: Build and push (MAIN)
         uses: docker/build-push-action@v3
         with:
-          file: ./Dockerfile
+          context: .
+          dockerfile: Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dradis:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/typemill:latest
