@@ -26,12 +26,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Create blank .env (to make the image build)
+        run: |
+          touch .env
       -
         name: Build and push (MAIN)
         uses: docker/build-push-action@v3
         with:
           context: .
-          dockerfile: packages/hoppscotch-selfhost-web/Dockerfile
+          file: packages/hoppscotch-selfhost-web/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hoppscotch-app:latest
