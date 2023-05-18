@@ -26,6 +26,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Create blank .env (to make the image build)
+        run: |
+          touch .env
       -
         name: Build and push (MAIN)
         uses: docker/build-push-action@v3
