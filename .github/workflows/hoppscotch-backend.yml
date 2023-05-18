@@ -10,7 +10,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Typemill Repository
+      - name: Checkout Hoppscotch Repository
         uses: actions/checkout@v2
         with:
           repository: hoppscotch/hoppscotch
