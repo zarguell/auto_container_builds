@@ -35,6 +35,7 @@ jobs:
         with:
           context: .
           file: packages/hoppscotch-backend/Dockerfile
+          target: prod
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hoppscotch-backend:latest
