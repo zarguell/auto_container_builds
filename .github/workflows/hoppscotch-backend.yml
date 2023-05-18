@@ -29,7 +29,7 @@ jobs:
       - name: Create blank .env (to make the image build), and insert necessary env vars
         run: |
           touch .env
-          sed -i '/ENV PRODUCTION="true"/a ENV MAILER_SMTP_URL="smtps:\/\/user@domain.com:pass@smtp.domain.com"' packages/hoppscotch-backend/Dockerfile
+          sed -i '1a\ENV MAILER_SMTP_URL="smtps:\/\/user@domain.com:pass@smtp.domain.com"\nENV MAILER_ADDRESS_FROM="From Name Here <from@example.com>"' packages/hoppscotch-backend/Dockerfile
 
       -
         name: Build and push (MAIN)
