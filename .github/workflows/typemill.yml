@@ -1,0 +1,37 @@
+name: Build Typemill Container
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 6 * * 0"
+
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: Clone Repo
+        run: |
+          git clone https://github.com/typemill/typemill.git
+      -
+        name: Build and push (MAIN)
+        uses: docker/build-push-action@v3
+        with:
+          file: ./typemill/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dradis:latest
