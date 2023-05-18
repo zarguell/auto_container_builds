@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Typemill Repository
         uses: actions/checkout@v2
         with:
-          repository: trendschau/typemill
+          repository: typemill/typemill
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
