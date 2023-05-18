@@ -1,4 +1,4 @@
-name: Build Typemill Container
+name: Typemill
 
 on:
   workflow_dispatch:
