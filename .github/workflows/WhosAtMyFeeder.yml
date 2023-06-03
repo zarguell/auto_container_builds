@@ -13,7 +13,7 @@ jobs:
       - name: Checkout WhosAtMyFeeder Repository
         uses: actions/checkout@v3
         with:
-          repository: mmcc-xx/WhosAtMyFeeder
+          repository: mmcc-xx/whosatmyfeeder
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
