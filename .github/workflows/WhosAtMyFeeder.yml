@@ -27,6 +27,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
+        name: Download model
+        run: |
+          curl -O https://raw.githubusercontent.com/zarguell/auto_container_builds/main/assets/model.tflite
+      -
         name: Build and push (MAIN)
         uses: docker/build-push-action@v3
         with:
