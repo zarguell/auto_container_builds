@@ -19,13 +19,17 @@ jobs:
         id: temp-container
         run: docker create mmcc73/whosatmyfeeder:latest
 
-      - name: Extract container ID
-        id: container-id
+      - name: Create temporary container
+        id: temp-container
         run: |
-          echo "ID=${{ steps.temp-container.outputs.stdout }}" >> $GITHUB_ENV
+          container_id=$(docker create mmcc73/whosatmyfeeder:latest)
+          echo "CONTAINER_ID=$container_id" >> $GITHUB_ENV
+
+      - name: Show container ID
+        run: echo "Container ID: ${{ env.CONTAINER_ID }}"
 
       - name: Copy model.tflite file
-        run: docker cp ${{ env.ID }}:/model.tflite ./assets/
+        run: docker cp ${{ env.CONTAINER_ID }}:/model.tflite ./assets/
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v4
