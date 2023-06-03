@@ -1,4 +1,4 @@
-name: Build documenso container
+name: documenso
 
 on:
   workflow_dispatch:
