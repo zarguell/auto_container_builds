@@ -1,4 +1,4 @@
-name: Extract Model
+name: WhosAtMyFeeder - Extract model.tflite
 
 on:
   schedule:
@@ -21,10 +21,11 @@ jobs:
 
       - name: Extract container ID
         id: container-id
-        run: echo "::set-output name=id::$(docker ps -aqf 'ancestor=mmcc73/whosatmyfeeder:latest')"
+        run: |
+          echo "ID=${{ steps.temp-container.outputs.stdout }}" >> $GITHUB_ENV
 
       - name: Copy model.tflite file
-        run: docker cp ${{ steps.container-id.outputs.id }}:/model.tflite ./assets/
+        run: docker cp ${{ env.ID }}:/model.tflite ./assets/
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v4
