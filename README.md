@@ -1,6 +1,6 @@
 # Automatic Container Builds
 
-The goal of this repo is to use Github actions to build and push docker images on a continious basis.
+The goal of this repo is to use Github actions to build and push docker images on a weekly basis.
 
 | Container Image | Source Repo | Build Cron | Build Status | Architectures |
 | --------------- | ----------- | ---------- | ------------ | ------------- |
