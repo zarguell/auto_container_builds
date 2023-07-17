@@ -10,11 +10,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout documenso Repository
-        uses: actions/checkout@v3
-        with:
-          repository: realaravinth/libmedium
-          github-server-url: https://git.batsense.net
+      - name: Checkout libmedium Repository
+        run: |
+          git clone https://git.batsense.net/realaravinth/libmedium
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -31,7 +29,7 @@ jobs:
         name: Build and push (MAIN)
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./libmedium
           file: Dockerfile
           target: runner
           platforms: linux/amd64,linux/arm64
