@@ -10,7 +10,11 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout libmedium Repository
+      - 
+        name: Checkout repository
+        uses: actions/checkout@v3
+      - 
+        name: Checkout libmedium Repository
         run: |
           git clone https://git.batsense.net/realaravinth/libmedium
       -
