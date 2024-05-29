@@ -1,4 +1,4 @@
-name: documenso
+name: firefly-iii-email-summary
 
 on:
   workflow_dispatch:
