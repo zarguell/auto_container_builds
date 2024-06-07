@@ -2,7 +2,7 @@
 FROM python:3.12-alpine AS build
 
 # Install necessary packages for building
-RUN apk add --no-cache git build-base python3-dev musl-dev linux-headers cmake libffi-dev
+RUN apk add --no-cache git build-base python3-dev musl-dev linux-headers cmake libffi-dev capstone-dev
 
 # Set the working directory
 WORKDIR /app
@@ -20,7 +20,7 @@ RUN python3 -m venv /app/venv \
 FROM python:3.12-alpine
 
 # Install runtime dependencies
-RUN apk add --no-cache libstdc++ libgcc libffi
+RUN apk add --no-cache libstdc++ libgcc libffi capstone
 
 # Create a non-root user and group
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
