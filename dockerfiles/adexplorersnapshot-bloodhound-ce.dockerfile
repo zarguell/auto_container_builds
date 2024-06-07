@@ -8,7 +8,7 @@ RUN apk add --no-cache git build-base python3-dev musl-dev linux-headers cmake l
 WORKDIR /app
 
 # Clone the repository into /app
-RUN git clone https://github.com/c3c/ADExplorerSnapshot.py.git /app
+RUN git clone https://github.com/dirkjanm/BloodHound.py.git /app
 
 # Install Python dependencies in a virtual environment
 RUN python3 -m venv /app/venv \
