@@ -2,7 +2,7 @@
 FROM python:3.12-alpine
 
 # Install necessary packages
-RUN apk add --no-cache git
+RUN apk add --no-cache git build-base python3-dev
 
 # Create a non-root user and group
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
