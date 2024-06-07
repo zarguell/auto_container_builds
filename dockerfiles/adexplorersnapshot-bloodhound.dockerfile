@@ -2,7 +2,7 @@
 FROM python:3.12-alpine
 
 # Install necessary packages
-RUN apk add --no-cache git build-base python3-dev
+RUN apk add --no-cache git build-base python3-dev musl-dev linux-headers cmake
 
 # Create a non-root user and group
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
