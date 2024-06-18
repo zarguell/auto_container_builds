@@ -1,8 +1,33 @@
 # Stage 1: Build stage
-FROM python:3.12-alpine AS build
+FROM python:3.12-slim-bullseye AS build
 
-# Install necessary packages for building
-RUN apk add --no-cache git build-base python3-dev musl-dev linux-headers cmake libffi-dev
+# Install necessary packages for building Python packages and common dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    python3-dev \
+    cmake \
+    libffi-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    liblcms2-dev \
+    libopenjp2-7-dev \
+    libtiff-dev \
+    tk-dev \
+    tcl-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libgdk-pixbuf2.0-dev \
+    libxslt1-dev \
+    libxml2-dev \
+    libpq-dev \
+    libmariadb-dev \
+    libcapstone-dev \
+    bash
 
 # Set the working directory
 WORKDIR /app
@@ -17,13 +42,37 @@ RUN python3 -m venv /app/venv \
     && pip install .
 
 # Stage 2: Runtime stage
-FROM python:3.12-alpine
+FROM python:3.12-slim-bullseye
 
 # Install runtime dependencies
-RUN apk add --no-cache libstdc++ libgcc libffi
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libstdc++6 \
+    libffi7 \
+    libssl1.1 \
+    zlib1g \
+    libjpeg62-turbo \
+    libfreetype6 \
+    liblcms2-2 \
+    libopenjp2-7 \
+    libtiff5 \
+    tk8.6 \
+    tcl8.6 \
+    libharfbuzz0b \
+    libfribidi0 \
+    libcairo2 \
+    libpango-1.0-0 \
+    libgdk-pixbuf2.0-0 \
+    libxslt1.1 \
+    libxml2 \
+    libpq5 \
+    libmariadb3 \
+    libcapstone4 \
+    bash \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user and group
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 
 # Set the working directory
 WORKDIR /app
