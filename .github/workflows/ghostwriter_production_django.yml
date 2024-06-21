@@ -1,4 +1,4 @@
-name: ghostwriter_local_django
+name: ghostwriter_production_django
 
 on:
   workflow_dispatch:
@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./compose/local/django/Dockerfile
+          file: ./compose/production/django/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ghostwriter_local_django:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ghostwriter_production_django:latest
