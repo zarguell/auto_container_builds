@@ -31,7 +31,7 @@ jobs:
           touch .env
       -
         name: Build and push (MAIN)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: packages/hoppscotch-selfhost-web/Dockerfile
