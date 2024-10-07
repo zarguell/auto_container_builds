@@ -32,7 +32,7 @@ jobs:
           curl -O https://raw.githubusercontent.com/zarguell/auto_container_builds/main/assets/model.tflite
       -
         name: Build and push (MAIN)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: Dockerfile
