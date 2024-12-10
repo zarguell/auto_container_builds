@@ -10,7 +10,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout beelzebub Repository
+      - name: Checkout rusthound-ce Repository
         uses: actions/checkout@v4
         with:
           repository: g0h4n/RustHound-CE
@@ -33,4 +33,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rusthoun-ce:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rusthound-ce:latest
