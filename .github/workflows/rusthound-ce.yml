@@ -13,7 +13,7 @@ jobs:
       - name: Checkout rusthound-ce Repository
         uses: actions/checkout@v4
         with:
-          repository: g0h4n/RustHound-CE
+          repository: zarguell/auto_container_builds
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -31,6 +31,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: dockerfiles/rusthound-ce.dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/rusthound-ce:latest
