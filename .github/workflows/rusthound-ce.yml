@@ -1,4 +1,4 @@
-name: beelzebub arm64
+name: rusthound-ce
 
 on:
   workflow_dispatch:
