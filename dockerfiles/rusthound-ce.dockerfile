@@ -16,6 +16,7 @@ RUN apt-get -y update && \
         musl-tools \
         make \
         gcc-mingw-w64-x86-64 && \
+        git && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone the RustHound-CE source code
