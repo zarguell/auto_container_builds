@@ -16,8 +16,8 @@ RUN git clone https://github.com/ustayready/shredhound.git .
 # Set up a virtual environment
 RUN python3 -m venv venv
 
-# Activate the virtual environment and install requirements
-RUN . venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
+# Activate the virtual environment
+RUN . venv/bin/activate
 
 # Ensure the Python virtual environment is used for the entrypoint
 ENV PATH="/app/venv/bin:$PATH"
