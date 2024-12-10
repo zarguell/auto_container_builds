@@ -15,7 +15,7 @@ RUN apt-get -y update && \
         libsasl2-modules-gssapi-mit \
         musl-tools \
         make \
-        gcc-mingw-w64-x86-64 && \
+        gcc-mingw-w64-x86-64 \
         git && \
     rm -rf /var/lib/apt/lists/*
 
