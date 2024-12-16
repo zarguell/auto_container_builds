@@ -17,11 +17,10 @@ RUN apt-get update && \
     pip3 install --no-warn-script-location xortool && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Clone the PEzor repository
-RUN git clone https://github.com/phra/PEzor.git /app/PEzor
-
-# Run the installation script for PEzor
-RUN /app/PEzor/install.sh
+# Clone repo,remove 'sudo' commands from the installation script and run the installation script for PEzor
+RUN git clone https://github.com/phra/PEzor.git /app/PEzor && \
+    sed -i 's/sudo //g' /app/PEzor/install.sh && \
+    /app/PEzor/install.sh
 
 # Set the entrypoint to the PEzor script
 ENTRYPOINT ["/app/PEzor/PEzor.sh"]
