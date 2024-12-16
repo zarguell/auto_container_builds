@@ -2,7 +2,8 @@ FROM python:3.12-slim-bullseye
 
 # Install necessary packages for building Python packages and common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git
+    git \
+    python3-virtualenv
 
 # Set the working directory
 WORKDIR /app
