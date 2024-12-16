@@ -3,7 +3,7 @@ FROM python:3.12-slim-bullseye
 # Install necessary packages for building Python packages and common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    python3-virtualenv
+    python3-venv
 
 # Set the working directory
 WORKDIR /app
@@ -17,4 +17,4 @@ RUN python3 -m venv venv \
     && pip install -r requirements.txt
 
 # Run the Python script
-CMD ["venv/bin/python", "sccmhunter.py"]
+ENTRYPOINT ["venv/bin/python", "sccmhunter.py"]
