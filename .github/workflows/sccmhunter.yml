@@ -34,4 +34,4 @@ jobs:
           file: dockerfiles/sccmhunter.dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/sccmhunter:dev-ce
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/sccmhunter:latest
