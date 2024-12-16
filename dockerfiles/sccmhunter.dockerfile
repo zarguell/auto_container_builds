@@ -12,9 +12,9 @@ WORKDIR /app
 RUN git clone https://github.com/garrettfoster13/sccmhunter /app
 
 # Install Python dependencies in a virtual environment
-RUN virtualenv --python=python3 . \
-    && source bin/activate \
-    && pip3 install -r requirements.txt
+RUN python3 -m venv venv \
+    && . venv/bin/activate \
+    && pip install -r requirements.txt
 
 # Run the Python script
-CMD ["python3", "sccmhunter.py"]
+CMD ["venv/bin/python", "sccmhunter.py"]
