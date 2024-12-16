@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Clone the PEzor repository
-RUN git clone https://github.com/Nahid5/PEzor /app/PEzor
+RUN git clone https://github.com/phra/PEzor.git /app/PEzor
 
 # Run the installation script for PEzor
 RUN /app/PEzor/install.sh
