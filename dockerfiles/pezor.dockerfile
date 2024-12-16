@@ -3,10 +3,11 @@ FROM debian:bullseye-slim
 # Set working directory
 WORKDIR /app
 
-# Set environment variables to avoid interactive prompts
+# Set environment variables to avoid interactive prompts and enable Go modules
 ENV DEBIAN_FRONTEND=noninteractive \
     DEBCONF_NONINTERACTIVE_SEEN=true \
-    PATH="/root/go/bin:/app/PEzor:/app/PEzor/deps/donut:/app/PEzor/deps/wclang/_prefix_PEzor_/bin:/app/wclang/_prefix_/bin:/usr/local/go/bin:${PATH}"
+    PATH="/root/go/bin:/app/PEzor:/app/PEzor/deps/donut:/app/PEzor/deps/wclang/_prefix_PEzor_/bin:/usr/local/go/bin:${PATH}" \
+    GO111MODULE=on
 
 # Install required dependencies
 RUN apt-get update && \
