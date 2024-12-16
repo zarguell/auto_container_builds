@@ -20,6 +20,7 @@ RUN apt-get update && \
 
 # Clone repo,remove 'sudo' commands from the installation script and run the installation script for PEzor
 RUN git clone https://github.com/phra/PEzor.git /app/PEzor && \
+    sed -i 's/go install/go get/' /app/PEzor/install.sh && \
     sed -i 's/sudo //g' /app/PEzor/install.sh && \
     /app/PEzor/install.sh
 
