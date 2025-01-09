@@ -26,6 +26,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Update nginx conf to not connect to a generic "app" backend because I don't want the container named that
+        run: |
+          sed -i 's/server app:9000;/server monica-fpm-app:9000;/' ./.examples/supervisor/fpm-alpine/web/nginx.conf
       -
         name: Build and push (MAIN)
         uses: docker/build-push-action@v6
