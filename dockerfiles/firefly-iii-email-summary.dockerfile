@@ -11,7 +11,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /app
 
 # Clone the repository into /app and change ownership to the non-root user
-RUN git clone https://github.com/davidschlachter/firefly-iii-email-summary.git /app \
+RUN git clone https://github.com/zarguell/firefly-iii-email-summary.git /app \
     && chown -R appuser:appgroup /app
 
 # Switch to non-root user
