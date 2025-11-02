@@ -1,5 +1,5 @@
 # Stage 1: Build RustHound-CE
-FROM rust:1.81.0-slim-bullseye AS builder
+FROM rust:1.91.0-slim-bullseye AS builder
 
 # Set the working directory
 WORKDIR /usr/src/rusthound-ce
