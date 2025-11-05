@@ -1,4 +1,4 @@
-FROM python:3.13-slim-bullseye ASs builder
+FROM python:3.13-slim-bullseye AS builder
 
 # Clone the sccmhunter repository
 RUN apt-get update && apt-get install -y --no-install-recommends git \
