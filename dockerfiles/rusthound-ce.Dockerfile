@@ -9,6 +9,7 @@ RUN git clone https://github.com/g0h4n/RustHound-CE.git .
 RUN cargo install cross
 
 # Ensure musl target is available
+RUN rustup default stable
 RUN rustup target add x86_64-unknown-linux-musl
 
 # Now build static binary
