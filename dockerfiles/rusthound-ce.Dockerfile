@@ -12,6 +12,9 @@ RUN cargo install cross
 RUN rustup default stable
 RUN rustup target add x86_64-unknown-linux-musl
 
+# Ensure Cargo Path is set
+ENV PATH="/home/nonroot/.cargo/bin:${PATH}"
+
 # Now build static binary
 RUN make linux_musl
 
