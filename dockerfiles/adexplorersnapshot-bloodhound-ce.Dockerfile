@@ -14,13 +14,8 @@ FROM cgr.dev/chainguard/python:latest
 
 WORKDIR /app
 
-# Copy application and virtual environment from builder
-COPY --from=builder /app/ADExplorerSnapshot.py /app/
-COPY --from=builder /app/adexpsnapshot /app/adexpsnapshot
-COPY --from=builder /app/venv /app/venv
-
-# Ensure nonroot user owns the application
-RUN chown -R nonroot:nonroot /app
+# Explicitly set ownership to nonroot (UID 65532)
+COPY --from=builder --chown=65532:65532 /app /app
 
 ENV PATH="/app/venv/bin:$PATH"
 
