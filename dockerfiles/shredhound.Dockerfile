@@ -1,26 +1,22 @@
-# Base image for Python
-FROM python:3.14-slim
+FROM cgr.dev/chainguard/python:latest-dev AS builder
 
-# Set working directory
 WORKDIR /app
-
-# Install system dependencies for Python virtual environment and git
-RUN apt-get update && apt-get install -y \
-    git \
-    python3-venv \
-    && rm -rf /var/lib/apt/lists/*
 
 # Clone the ShredHound repository
 RUN git clone https://github.com/ustayready/shredhound.git .
 
-# Set up a virtual environment
-RUN python3 -m venv venv
+# Create virtual environment and install dependencies
+RUN python -m venv venv
+ENV PATH="/app/venv/bin:$PATH"
+RUN pip install -r requirements.txt
 
-# Activate the virtual environment
-RUN . venv/bin/activate
+FROM cgr.dev/chainguard/python:latest
 
-# Ensure the Python virtual environment is used for the entrypoint
+WORKDIR /app
+
+# Copy application and virtual environment from builder
+COPY --from=builder /app /app
+
 ENV PATH="/app/venv/bin:$PATH"
 
-# Set the entrypoint to the Python script
 ENTRYPOINT ["python", "shred.py"]
