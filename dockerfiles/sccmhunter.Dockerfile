@@ -1,4 +1,4 @@
-FROM python:3.13-slim-bullseye
+FROM dhi/python:3-fips
 
 # Install necessary packages for building Python packages and common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
