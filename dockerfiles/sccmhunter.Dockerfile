@@ -1,4 +1,4 @@
-FROM dhi/python:3-fips
+FROM cgr.dev/chainguard/python:latest
 
 # Install necessary packages for building Python packages and common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
