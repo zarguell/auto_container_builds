@@ -1,30 +1,30 @@
-# Use an official Python runtime as a parent image
-FROM python:3.14-alpine
+FROM cgr.dev/chainguard/python:latest-dev AS builder
 
-# Install necessary packages
-RUN apk add --no-cache git
-
-# Create a non-root user and group
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Set the working directory
 WORKDIR /app
 
-# Clone the repository into /app and change ownership to the non-root user
-RUN git clone https://github.com/davidschlachter/firefly-iii-email-summary.git /app \
-    && chown -R appuser:appgroup /app
+# Clone the repository
+RUN git clone https://github.com/davidschlachter/firefly-iii-email-summary.git .
 
-# Switch to non-root user
-USER appuser
-
-# Set the working directory to the cloned repository
-WORKDIR /app
-
-# Install any needed packages specified in requirements.txt
+# Create virtual environment and install dependencies
+RUN python -m venv venv
+ENV PATH="/app/venv/bin:$PATH"
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the config.yaml.sample to config.yaml (will be overridden by mount)
-RUN cp /app/config.yaml.sample /app/config.yaml
+FROM cgr.dev/chainguard/python:latest
 
-# Run the Python script
-CMD ["python3", "monthly-report.py"]
+WORKDIR /app
+
+# Chainguard Python image runs as nonroot by default
+# Copy application and virtual environment from builder
+COPY --from=builder /app /app
+
+# Copy config template (user mounts config.yaml over this at runtime)
+COPY --from=builder /app/config.yaml.sample /app/config.yaml
+
+# Ensure nonroot user owns the application directory
+RUN chown -R nonroot:nonroot /app
+
+# Chainguard Python image already runs as nonroot
+ENV PATH="/app/venv/bin:$PATH"
+
+CMD ["python", "monthly-report.py"]
