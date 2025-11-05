@@ -1,20 +1,25 @@
-FROM cgr.dev/chainguard/python:latest
+FROM python:3.13-slim-bullseye as build
 
-# Install necessary packages for building Python packages and common dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    python3-venv
+# Clone the sccmhunter repository
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && git clone https://github.com/garrettfoster13/sccmhunter /app \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
+# Create virtual environment and install dependencies
+RUN python -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM activestate/python:latest
+
 WORKDIR /app
 
-# Clone the repository into /app
-RUN git clone https://github.com/garrettfoster13/sccmhunter /app
+# Copy the application code and virtual environment from builder
+COPY --from=builder /app/sccmhunter.py /app/
+COPY --from=builder /app/lib /app/lib
+COPY --from=builder /app/venv /app/venv
 
-# Install Python dependencies in a virtual environment
-RUN python3 -m venv venv \
-    && . venv/bin/activate \
-    && pip install -r requirements.txt
+# Set PATH to use the virtual environment
+ENV PATH="/app/venv/bin:$PATH"
 
-# Run the Python script
-ENTRYPOINT ["venv/bin/python", "sccmhunter.py"]
+ENTRYPOINT ["python", "sccmhunter.py"]
