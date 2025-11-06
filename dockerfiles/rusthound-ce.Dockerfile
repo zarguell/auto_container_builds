@@ -4,14 +4,11 @@ WORKDIR /usr/src/rusthound-ce
 # Clone source
 RUN git clone https://github.com/g0h4n/RustHound-CE.git .
 
-# Set environment variables and execute all build steps in a single shell
-RUN export CARGO_HOME=/home/nonroot/.cargo && \
-    export RUSTUP_HOME=/home/nonroot/.rustup && \
-    export PATH=/home/nonroot/.cargo/bin:${PATH} && \
-    cargo install --version 0.1.16 cross && \
-    rustup default stable && \
-    rustup target add x86_64-unknown-linux-musl && \
-    make build_linux_musl
+# Install musl target using the pre-installed rustup
+RUN rustup target add x86_64-unknown-linux-musl
+
+# Build directly with cargo instead of using cross/make
+RUN cargo build --target x86_64-unknown-linux-musl --release --features nogssapi --no-default-features
 
 FROM cgr.dev/chainguard/wolfi-base:latest
 WORKDIR /app
