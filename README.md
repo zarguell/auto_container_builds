@@ -4,8 +4,7 @@ The goal of this repo is to use Github actions to build and push docker images o
 
 | Container Image | Source Repo | Build Cron | Build Status | Architectures |
 | --------------- | ----------- | ---------- | ------------ | ------------- |
-| docker.io/zarguell/typemill | [Typemill](https://github.com/typemill/typemill) | 15 6 * * 0 | [![Build Typemill Container](https://github.com/zarguell/auto_container_builds/actions/workflows/typemill.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/typemill.yml) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fzarguell%2Fauto_container_builds.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fzarguell%2Fauto_container_builds?ref=badge_shield)
-| amd64, arm64 |(https://github.com/zarguell/auto_container_builds/actions/workflows/ryot.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/ryot.yml) | arm64 |
+| docker.io/zarguell/typemill | [Typemill](https://github.com/typemill/typemill) | 15 6 * * 0 | [![Build Typemill Container](https://github.com/zarguell/auto_container_builds/actions/workflows/typemill.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/typemill.yml) |  amd64, arm64 
 | docker.io/zarguell/documenso | [documenso](https://github.com/documenso/documenso) | 5 7 * * 0 | [![Build documenso Container](https://github.com/zarguell/auto_container_builds/actions/workflows/documenso.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/documenso.yml) | amd64, arm64 |
 | docker.io/zarguell/whosatmyfeeder | [WhosAtMyFeeder](https://github.com/mmcc-xx/WhosAtMyFeeder) | 35 7 * * 0 | [![Build WhosAtMyFeeder Container](https://github.com/zarguell/auto_container_builds/actions/workflows/WhosAtMyFeeder.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/WhosAtMyFeeder.yml) [![Extract WhosAtMyFeeder Model](https://github.com/zarguell/auto_container_builds/actions/workflows/WhosAtMyFeeder-model.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/WhosAtMyFeeder-model.yml) | amd64, arm64 |
 | docker.io/zarguell/beelzebub | [beelzebub](https://github.com/mariocandela/beelzebub) | 5 8 * * 0 | [![Build beelzebub Container](https://github.com/zarguell/auto_container_builds/actions/workflows/beelzebub.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/beelzebub.yml) | arm64 |
@@ -14,6 +13,9 @@ The goal of this repo is to use Github actions to build and push docker images o
 | docker.io/zarguell/libmedium | [libmedium](https://git.batsense.net/realaravinth/libmedium) | 50 8 * * 0 | [![Build libmedium Container](https://github.com/zarguell/auto_container_builds/actions/workflows/libmedium.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/libmedium.yml) | amd64, arm64 |
 | docker.io/zarguell/tabby-web | [tabby-web](https://github.com/Eugeny/tabby-web) | 10 9 * * 0 | [![Build tabby-web Container](https://github.com/zarguell/auto_container_builds/actions/workflows/tabby-web.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/tabby-web.yml) | amd64, arm64 |
 | docker.io/zarguell/firefly-iii-email-summary | [firefly-iii-email-summary](https://github.com/davidschlachter/firefly-iii-email-summary.git) | 5 9 * * 0 | [![Build firefly-iii-email-summary Container](https://github.com/zarguell/auto_container_builds/actions/workflows/firefly-iii-email-summary.yml/badge.svg)](https://github.com/zarguell/auto_container_builds/actions/workflows/firefly-iii-email-summary.yml) | amd64, arm64 |
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fzarguell%2Fauto_container_builds.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fzarguell%2Fauto_container_builds?ref=badge_shield)
 
 
 ## License
