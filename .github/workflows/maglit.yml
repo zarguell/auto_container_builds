@@ -14,8 +14,12 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: nayamamarshe/maglit
-      -
-        name: Set up QEMU
+      - name: Install functions dependencies
+        run: |
+          cd functions
+          npm install
+          cd ..
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
