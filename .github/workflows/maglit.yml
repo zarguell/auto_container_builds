@@ -19,6 +19,19 @@ jobs:
           cd functions
           npm install
           cd ..
+      - name: Disable static generation for all Firebase pages
+        run: |
+          # Find all page files in the app directory
+          find app -name "page.tsx" -o -name "page.ts" -o -name "page.jsx" -o -name "page.js" | while read file; do
+            # Check if file contains firebase imports
+            if grep -q "firebase" "$file"; then
+              # Add force-dynamic if not already present
+              if ! grep -q "export const dynamic" "$file"; then
+                sed -i '1i export const dynamic = "force-dynamic";' "$file"
+                echo "Added force-dynamic to $file"
+              fi
+            fi
+          done
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       -
