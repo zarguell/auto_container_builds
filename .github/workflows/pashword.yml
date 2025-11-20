@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout pashword docker Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: pashword/pashword
       - name: Patch next.config.js for Docker build
