@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout pezor Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: zarguell/auto_container_builds
       -
