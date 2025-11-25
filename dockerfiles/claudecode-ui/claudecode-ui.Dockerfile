@@ -79,8 +79,8 @@ ENV NODE_VERSION=${NODE_VERSION}
 ENV PYTHON_VERSION=${PYTHON_VERSION_LATEST}
 ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin:$PATH"
 
-# Configure npm to use Python 3.11 for node-gyp
-RUN npm config set python "${PYENV_ROOT}/versions/${PYTHON_VERSION_COMPAT}/bin/python3"
+# Set Python path for node-gyp via environment variable
+ENV npm_config_python="${PYENV_ROOT}/versions/${PYTHON_VERSION_COMPAT}/bin/python3"
 
 # Install Claude CLI and UI
 RUN bash -c "source $NVM_DIR/nvm.sh && npm install -g @anthropic-ai/claude-code @siteboon/claude-code-ui"
