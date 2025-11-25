@@ -1,5 +1,5 @@
 # Use Ubuntu base
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Build arguments for version control
 # renovate: datasource=github-tags depName=python/cpython
