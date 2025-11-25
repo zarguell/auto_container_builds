@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 
 # Build arguments for version control
 # renovate: datasource=github-tags depName=python/cpython
-ARG PYTHON_VERSION=3.13.9
+ARG PYTHON_VERSION=3.14.0
 # renovate: datasource=node-version depName=node
 ARG NODE_VERSION=24.11.1
 # renovate: datasource=github-releases depName=nvm-sh/nvm
