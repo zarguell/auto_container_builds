@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Use Ubuntu base
 FROM ubuntu:22.04
 
@@ -61,8 +63,10 @@ RUN git clone --branch ${PYENV_GIT_TAG} https://github.com/pyenv/pyenv.git $PYEN
 # Switch to non-root user
 USER devuser
 
-# Install both Python versions
-RUN pyenv install ${PYTHON_VERSION_COMPAT} && \
+# Install both Python versions with BuildKit cache mount
+RUN --mount=type=cache,target=/opt/pyenv/cache,uid=1001,gid=1001 \
+    --mount=type=cache,target=/tmp/python-build,uid=1001,gid=1001 \
+    pyenv install ${PYTHON_VERSION_COMPAT} && \
     pyenv install ${PYTHON_VERSION_LATEST} && \
     pyenv global ${PYTHON_VERSION_LATEST} ${PYTHON_VERSION_COMPAT} && \
     pyenv rehash
