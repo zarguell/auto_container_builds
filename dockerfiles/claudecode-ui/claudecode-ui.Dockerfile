@@ -2,9 +2,13 @@
 FROM ubuntu:22.04
 
 # Build arguments for version control
+# renovate: datasource=github-tags depName=python/cpython
 ARG PYTHON_VERSION=3.13.9
+# renovate: datasource=node-version depName=node
 ARG NODE_VERSION=24.11.1
+# renovate: datasource=github-releases depName=nvm-sh/nvm
 ARG NVM_VERSION=0.40.3
+# renovate: datasource=github-releases depName=pyenv/pyenv
 ARG PYENV_GIT_TAG=v2.6.13
 
 # Avoid prompts from apt
