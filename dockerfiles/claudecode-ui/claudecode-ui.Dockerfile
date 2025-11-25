@@ -3,7 +3,9 @@ FROM ubuntu:22.04
 
 # Build arguments for version control
 # renovate: datasource=github-tags depName=python/cpython
-ARG PYTHON_VERSION=3.13.9
+ARG PYTHON_VERSION_LATEST=3.13.9
+# renovate: datasource=github-tags depName=python/cpython
+ARG PYTHON_VERSION_COMPAT=3.11.14
 # renovate: datasource=node-version depName=node
 ARG NODE_VERSION=24.11.1
 # renovate: datasource=github-releases depName=nvm-sh/nvm
@@ -59,9 +61,10 @@ RUN git clone --branch ${PYENV_GIT_TAG} https://github.com/pyenv/pyenv.git $PYEN
 # Switch to non-root user
 USER devuser
 
-# Install Python using build arg and set as global default
-RUN pyenv install ${PYTHON_VERSION} && \
-    pyenv global ${PYTHON_VERSION} && \
+# Install both Python versions
+RUN pyenv install ${PYTHON_VERSION_COMPAT} && \
+    pyenv install ${PYTHON_VERSION_LATEST} && \
+    pyenv global ${PYTHON_VERSION_LATEST} ${PYTHON_VERSION_COMPAT} && \
     pyenv rehash
 
 # Install nvm with version from build arg
@@ -73,8 +76,11 @@ RUN bash -c "source $NVM_DIR/nvm.sh && nvm install ${NODE_VERSION} && nvm alias 
 
 # Set environment variables using build args
 ENV NODE_VERSION=${NODE_VERSION}
-ENV PYTHON_VERSION=${PYTHON_VERSION}
+ENV PYTHON_VERSION=${PYTHON_VERSION_LATEST}
 ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin:$PATH"
+
+# Configure npm to use Python 3.11 for node-gyp
+RUN npm config set python "${PYENV_ROOT}/versions/${PYTHON_VERSION_COMPAT}/bin/python3"
 
 # Install Claude CLI and UI
 RUN bash -c "source $NVM_DIR/nvm.sh && npm install -g @anthropic-ai/claude-code @siteboon/claude-code-ui"
@@ -113,7 +119,8 @@ RUN echo 'export NVM_DIR="$HOME/.nvm"' >> /home/devuser/.bashrc && \
 LABEL maintainer="zarguell@github"
 LABEL version="1.0.0"
 LABEL description="Claude Code and Cursor Web UI dev container"
-LABEL python.version="${PYTHON_VERSION}"
+LABEL python.version="${PYTHON_VERSION_LATEST}"
+LABEL python.compat.version="${PYTHON_VERSION_COMPAT}"
 LABEL node.version="${NODE_VERSION}"
 
 # Expose UI port
