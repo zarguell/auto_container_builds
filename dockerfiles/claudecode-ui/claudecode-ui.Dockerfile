@@ -1,0 +1,124 @@
+# Use Ubuntu base
+FROM ubuntu:22.04
+
+# Build arguments for version control
+ARG PYTHON_VERSION=3.13.9
+ARG NODE_VERSION=24.11.1
+ARG NVM_VERSION=0.40.3
+ARG PYENV_GIT_TAG=v2.6.13
+
+# Avoid prompts from apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    llvm \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    libffi-dev \
+    liblzma-dev \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    jq \
+    unzip \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install GitHub CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null && \
+    apt-get update && apt-get install -y gh && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -s /bin/bash -u 1001 devuser
+
+# Install pyenv system-wide
+ENV PYENV_ROOT="/opt/pyenv"
+ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+RUN git clone --branch ${PYENV_GIT_TAG} https://github.com/pyenv/pyenv.git $PYENV_ROOT && \
+    chown -R devuser:devuser $PYENV_ROOT
+
+# Switch to non-root user
+USER devuser
+
+# Install Python using build arg and set as global default
+RUN pyenv install ${PYTHON_VERSION} && \
+    pyenv global ${PYTHON_VERSION} && \
+    pyenv rehash
+
+# Install nvm with version from build arg
+ENV NVM_DIR="/home/devuser/.nvm"
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+
+# Install Node.js using build arg and set as default
+RUN bash -c "source $NVM_DIR/nvm.sh && nvm install ${NODE_VERSION} && nvm alias default ${NODE_VERSION} && nvm use default"
+
+# Set environment variables using build args
+ENV NODE_VERSION=${NODE_VERSION}
+ENV PYTHON_VERSION=${PYTHON_VERSION}
+ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin:$PATH"
+
+# Install Claude CLI and UI
+RUN bash -c "source $NVM_DIR/nvm.sh && npm install -g @anthropic-ai/claude-code @siteboon/claude-code-ui"
+
+# Install Cursor CLI
+RUN curl https://cursor.com/install -fsS | bash
+
+# Configure Git credential caching (7 days)
+RUN git config --global credential.helper "cache --timeout=604800"
+
+# Set up PATH for user
+ENV PATH="/home/devuser/.local/bin:$PATH"
+
+# Create workspace directory
+USER root
+RUN mkdir -p /workspace && chown devuser:devuser /workspace
+
+# Create entrypoint script
+COPY --chown=root:root entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh
+
+# Add healthcheck script
+COPY --chown=root:root healthcheck.js /usr/local/bin/healthcheck.js
+RUN chmod 755 /usr/local/bin/healthcheck.js
+
+# Switch back to non-root user
+USER devuser
+WORKDIR /workspace
+
+# Add nvm initialization to bashrc for interactive shells
+RUN echo 'export NVM_DIR="$HOME/.nvm"' >> /home/devuser/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /home/devuser/.bashrc && \
+    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> /home/devuser/.bashrc
+
+# Add metadata labels with versions
+LABEL maintainer="zarguell@github"
+LABEL version="1.0.0"
+LABEL description="Claude Code and Cursor Web UI dev container"
+LABEL python.version="${PYTHON_VERSION}"
+LABEL node.version="${NODE_VERSION}"
+
+# Expose UI port
+EXPOSE 3001
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD node /usr/local/bin/healthcheck.js
+
+# Use entrypoint for startup logic
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["npx", "@siteboon/claude-code-ui"]
