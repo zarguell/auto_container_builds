@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:13.2-slim
 
 # Set working directory
 WORKDIR /app
