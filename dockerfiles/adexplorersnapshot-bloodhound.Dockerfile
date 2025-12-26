@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM python:3.13-slim-bullseye AS build
+FROM python:3.15-rc-slim-trixie AS build
 
 # Install necessary packages for building Python packages and common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -42,7 +42,7 @@ RUN python3 -m venv /app/venv \
     && pip install .
 
 # Stage 2: Runtime stage
-FROM python:3.13-slim-bullseye
+FROM python:3.15-rc-slim-trixie
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
