@@ -1,7 +1,7 @@
 # ==========================================
 # STAGE 1: Builder (Standard OpenClaw Logic)
 # ==========================================
-FROM node:22-bookworm AS builder
+FROM node:24-bookworm AS builder
 
 # Install Bun (required for build scripts)
 RUN curl -fsSL https://bun.sh/install | bash
@@ -39,7 +39,7 @@ RUN pnpm prune --prod
 # STAGE 2: Secure Runtime
 # ==========================================
 # Start with the official Node image
-FROM node:22-bookworm-slim
+FROM node:24-bookworm-slim
 
 # 1. Install Python + Tools
 ENV DEBIAN_FRONTEND=noninteractive
