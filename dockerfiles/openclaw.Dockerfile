@@ -34,46 +34,42 @@ RUN pnpm prune --prod
 # ==========================================
 # STAGE 2: Secure Runtime
 # ==========================================
-FROM python:3.14-slim-bookworm
+# Start with the official Node image
+FROM node:22-bookworm-slim
 
-# 1. Install Runtime Dependencies + Your Tools
+# 1. Install Python + Tools
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+    python3-venv \
     curl \
     ca-certificates \
     jq \
-    nodejs \
-    npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pnpm globally
+# 2. Install Tools (uv, pnpm)
 RUN npm install -g pnpm
-
-# Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
-# 2. Setup Non-Root User
-RUN useradd -m -s /bin/bash -u 1000 node
+# 3. Setup Non-Root User
+#    The official node image already creates a user named 'node' (uid 1000).
+#    We just configure the directory.
 WORKDIR /app
+RUN chown node:node /app
 
-# 3. Copy Compiled App from Builder Stage
+# 4. Copy Compiled App from Builder Stage
 COPY --from=builder --chown=node:node /app/package.json ./
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/dist ./dist
 
-# --- FIX: ROBUST UI COPY ---
-# We copy the 'ui' folder from builder to catch whatever artifacts were created.
+# UI Copy
 COPY --from=builder --chown=node:node /app/ui ./ui
-# We delete the heavy source code and dev modules to keep the image slim.
-# This leaves behind only the build outputs (dist/build) and package configs.
 RUN rm -rf ./ui/src ./ui/node_modules
 
-# 4. Hardening & Environment
+# 5. Runtime Config
 ENV NODE_ENV=production
-
-# 5. Switch to non-root (Fixed typo 'SER' -> 'USER')
 USER node
 
-# 6. Define Entrypoint
+# 6. Entrypoint
 CMD ["node", "dist/index.js", "gateway", "--allow-unconfigured"]
-
