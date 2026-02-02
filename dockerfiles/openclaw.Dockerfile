@@ -26,7 +26,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Install memory-core dependencies
-RUN cd /extensions/memory-core && pnpm install
+RUN cd extensions/memory-core && pnpm install
 
 RUN OPENCLAW_A2UI_SKIP_MISSING=1 pnpm build
 ENV OPENCLAW_PREFER_PNPM=1
@@ -73,6 +73,10 @@ RUN rm -rf ./ui/src ./ui/node_modules
 
 # 5. Runtime Config
 ENV NODE_ENV=production
+
+# Create a symlink so 'openclaw' works globally
+RUN ln -s /app/dist/index.js /usr/local/bin/openclaw
+
 USER node
 
 # 6. Entrypoint
