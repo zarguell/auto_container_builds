@@ -68,6 +68,9 @@ COPY --from=builder --chown=node:node /app/package.json ./
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/dist ./dist
 
+# Copy Docs, required for agent instructions
+COPY --from=builder --chown=node:node /app/docs ./docs
+
 # UI Copy
 COPY --from=builder --chown=node:node /app/ui ./ui
 RUN rm -rf ./ui/src ./ui/node_modules
