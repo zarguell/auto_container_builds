@@ -11,7 +11,7 @@ ARG PYTHON_VERSION_COMPAT=3.11.14
 # renovate: datasource=node-version depName=node
 ARG NODE_VERSION=24.13.0
 # renovate: datasource=github-releases depName=nvm-sh/nvm
-ARG NVM_VERSION=0.40.3
+ARG NVM_VERSION=0.40.4
 # renovate: datasource=github-releases depName=pyenv/pyenv
 ARG PYENV_GIT_TAG=v2.6.13
 
