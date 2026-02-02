@@ -8,6 +8,15 @@
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+ARG \\S+_VERSION=(?<currentValue>\\S+)"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "description": "Update OpenClaw ref in GitHub Actions checkout",
+      "fileMatch": ["^\\.github/workflows/.*\\.yml$"],
+      "matchStrings": [
+        "repository: openclaw/openclaw\\s+ref: (?<currentValue>.*?)\\s"
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "openclaw/openclaw"
     }
   ]
 }
