@@ -50,6 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     jq \
+    chromium \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Install Tools (uv, pnpm)
