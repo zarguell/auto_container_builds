@@ -2,13 +2,34 @@ FROM nousresearch/hermes-agent:dafe443beba74384871e2c79d5b17db8bc51880e
 
 USER root
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git curl wget jq ca-certificates \
-    unzip zip xz-utils \
-    gnupg lsb-release software-properties-common \
-    openssh-client procps psmisc less vim nano \
-    tree findutils grep sed gawk coreutils \
-    make rsync file \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+        curl \
+        wget \
+        jq \
+        ca-certificates \
+        gnupg \
+        dirmngr \
+        unzip \
+        zip \
+        xz-utils \
+        openssh-client \
+        procps \
+        psmisc \
+        less \
+        vim \
+        nano \
+        tree \
+        rsync \
+        file \
+        make \
+        gawk \
+        sed \
+        grep \
+        findutils \
+        coreutils \
+        lsb-release \
     && rm -rf /var/lib/apt/lists/*
 
 # Install GitHub CLI
