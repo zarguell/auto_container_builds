@@ -187,7 +187,7 @@ RUN set -eux; \
     rm -f /tmp/hyperfine.deb
 
 # renovate: datasource=github-releases depName=ClementTsang/bottom
-ARG BOTTOM_VERSION=0.10.2
+ARG BOTTOM_VERSION=0.12.3
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="bottom_${BOTTOM_VERSION}-1_${DEB_ARCH}.deb"; \
