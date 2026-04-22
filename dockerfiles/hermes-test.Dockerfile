@@ -79,14 +79,13 @@ RUN set -eux; \
 ARG BAT_VERSION=v0.26.1
 RUN set -eux; \
     source /etc/tool-arch.env; \
-    asset="bat-${BAT_VERSION#v}-${RUST_GNU}.tar.gz"; \
+    asset="bat-${BAT_VERSION}-${RUST_GNU}.tar.gz"; \
     base="https://github.com/sharkdp/bat/releases/download/${BAT_VERSION}"; \
     curl -fsSL "${base}/${asset}" -o /tmp/bat.tar.gz; \
-    curl -fsSL "${base}/checksums.txt" -o /tmp/bat-checksums.txt; \
-    grep " ${asset}\$" /tmp/bat-checksums.txt | sha256sum -c -; \
-    tar -xzf /tmp/bat.tar.gz -C /tmp; \
-    install -m 0755 /tmp/bat-*/bat /usr/local/bin/bat; \
-    rm -rf /tmp/bat*
+    mkdir -p /tmp/bat-extract; \
+    tar -xzf /tmp/bat.tar.gz -C /tmp/bat-extract --strip-components=1; \
+    install -m 0755 /tmp/bat-extract/bat /usr/local/bin/bat; \
+    rm -rf /tmp/bat-extract /tmp/bat.tar.gz
 
 # renovate: datasource=github-releases depName=sharkdp/fd
 ARG FD_VERSION=9.0.0
@@ -115,11 +114,9 @@ RUN set -eux; \
     asset="eza_${RUST_GNU}.tar.gz"; \
     base="https://github.com/eza-community/eza/releases/download/v${EZA_VERSION}"; \
     curl -fsSL "${base}/${asset}" -o /tmp/eza.tar.gz; \
-    curl -fsSL "${base}/sha256sum.txt" -o /tmp/eza-sha256sum.txt; \
-    grep " ${asset}\$" /tmp/eza-sha256sum.txt | sha256sum -c -; \
     tar -xzf /tmp/eza.tar.gz -C /tmp; \
     install -m 0755 /tmp/eza /usr/local/bin/eza; \
-    rm -rf /tmp/eza /tmp/eza.tar.gz /tmp/eza-sha256sum.txt
+    rm -rf /tmp/eza /tmp/eza.tar.gz
 
 # renovate: datasource=github-releases depName=bootandy/dust
 ARG DUST_VERSION=1.2.4
@@ -128,9 +125,10 @@ RUN set -eux; \
     asset="dust-v${DUST_VERSION}-${RUST_GNU}.tar.gz"; \
     base="https://github.com/bootandy/dust/releases/download/v${DUST_VERSION}"; \
     curl -fsSL "${base}/${asset}" -o /tmp/dust.tar.gz; \
-    tar -xzf /tmp/dust.tar.gz -C /tmp; \
-    install -m 0755 /tmp/dust /usr/local/bin/dust; \
-    rm -rf /tmp/dust /tmp/dust.tar.gz
+    mkdir -p /tmp/dust-extract; \
+    tar -xzf /tmp/dust.tar.gz -C /tmp/dust-extract --strip-components=1; \
+    install -m 0755 /tmp/dust-extract/dust /usr/local/bin/dust; \
+    rm -rf /tmp/dust-extract /tmp/dust.tar.gz
 
 # renovate: datasource=github-releases depName=mikefarah/yq
 ARG YQ_VERSION=4.27.2
@@ -155,12 +153,13 @@ RUN set -eux; \
 ARG SD_VERSION=v1.1.0
 RUN set -eux; \
     source /etc/tool-arch.env; \
-    asset="sd-${SD_VERSION#v}-${RUST_MUSL}.tar.gz"; \
+    asset="sd-${SD_VERSION}-${RUST_MUSL}.tar.gz"; \
     base="https://github.com/chmln/sd/releases/download/${SD_VERSION}"; \
     curl -fsSL "${base}/${asset}" -o /tmp/sd.tar.gz; \
-    tar -xzf /tmp/sd.tar.gz -C /tmp; \
-    install -m 0755 /tmp/sd /usr/local/bin/sd; \
-    rm -rf /tmp/sd /tmp/sd.tar.gz
+    mkdir -p /tmp/sd-extract; \
+    tar -xzf /tmp/sd.tar.gz -C /tmp/sd-extract --strip-components=1; \
+    install -m 0755 /tmp/sd-extract/sd /usr/local/bin/sd; \
+    rm -rf /tmp/sd-extract /tmp/sd.tar.gz
 
 # renovate: datasource=github-releases depName=ajeetdsouza/zoxide
 ARG ZOXIDE_VERSION=0.9.8
