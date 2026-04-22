@@ -231,3 +231,5 @@ RUN set -eux; \
     hyperfine --version; \
     btm --version; \
     gh --version
+
+USER hermes
