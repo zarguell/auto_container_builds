@@ -163,7 +163,7 @@ RUN set -eux; \
     rm -rf /tmp/sd /tmp/sd.tar.gz
 
 # renovate: datasource=github-releases depName=ajeetdsouza/zoxide
-ARG ZOXIDE_VERSION=0.9.8
+ARG ZOXIDE_VERSION=0.9.9
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="zoxide-${ZOXIDE_VERSION}-${RUST_MUSL}.tar.gz"; \
