@@ -94,7 +94,7 @@ RUN set -eux; \
     rm -rf /tmp/bat-extract /tmp/bat.tar.gz
 
 # renovate: datasource=github-releases depName=sharkdp/fd
-ARG FD_VERSION=9.0.0
+ARG FD_VERSION=10.4.2
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="fd_${FD_VERSION}_${DEB_ARCH}.deb"; \
