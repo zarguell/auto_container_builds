@@ -238,4 +238,10 @@ RUN set -eux; \
     btm --version; \
     gh --version
 
+# renovate: datasource=npm depName=opencode-ai
+ARG OPENCODE_VERSION=1.4.3
+RUN set -eux; \
+    npm install -g opencode-ai@${OPENCODE_VERSION}; \
+    opencode --version
+
 USER hermes

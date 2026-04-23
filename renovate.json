@@ -17,6 +17,14 @@
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "openclaw/openclaw"
+    },
+    {
+      "description": "Update npm packages in Dockerfiles",
+      "fileMatch": ["^dockerfiles/.*\\.Dockerfile$"],
+      "matchStrings": [
+        "# renovate: datasource=npm depName=(?<depName>\\S+)\\s+ARG \\S+_VERSION=(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "npm"
     }
   ]
 }
