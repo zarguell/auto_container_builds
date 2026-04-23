@@ -182,7 +182,7 @@ RUN set -eux; \
     rm -rf /tmp/zoxide /tmp/zoxide.tar.gz
 
 # renovate: datasource=github-releases depName=sharkdp/hyperfine
-ARG HYPERFINE_VERSION=1.19.0
+ARG HYPERFINE_VERSION=1.20.0
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="hyperfine_${HYPERFINE_VERSION}_${DEB_ARCH}.deb"; \
