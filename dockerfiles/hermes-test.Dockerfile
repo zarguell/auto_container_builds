@@ -65,6 +65,11 @@ EOF
 
 # renovate: datasource=github-releases depName=cli/cli
 ARG GH_VERSION=2.91.0
+# TODO: Consider adding checksum verification for other tools (bat, fd, fzf, eza, dust, yq, delta, sd, zoxide, hyperfine, bottom)
+# - gh CLI has dedicated checksums.txt files in releases
+# - Other tools expose SHA256 via GitHub API: curl -sL "https://api.github.com/repos/OWNER/REPO/releases/latest" | jq '.assets[] | select(.name | test("deb$")) | .name + " " + .digest'
+# - Tradeoff: API-based verification adds complexity but improves security over HTTPS-only
+# - Tar.gz extractions would need additional handling to verify binaries inside archives
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="gh_${GH_VERSION}_linux_${DEB_ARCH}.deb"; \
