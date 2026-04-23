@@ -64,7 +64,7 @@ DEB_ARCH=${DEB_ARCH}
 EOF
 
 # renovate: datasource=github-releases depName=cli/cli
-ARG GH_VERSION=2.88.0
+ARG GH_VERSION=2.91.0
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="gh_${GH_VERSION}_linux_${DEB_ARCH}.deb"; \
