@@ -69,11 +69,12 @@ RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="gh_${GH_VERSION}_linux_${DEB_ARCH}.deb"; \
     base="https://github.com/cli/cli/releases/download/v${GH_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/gh.deb; \
+    curl -fsSL "${base}/${asset}" -o "/tmp/${asset}"; \
     curl -fsSL "${base}/gh_${GH_VERSION}_checksums.txt" -o /tmp/gh_checksums.txt; \
-    grep " ${asset}\$" /tmp/gh_checksums.txt | sha256sum -c -; \
-    dpkg -i /tmp/gh.deb; \
-    rm -f /tmp/gh.deb /tmp/gh_checksums.txt
+    cd /tmp; \
+    grep " ${asset}$" gh_checksums.txt | sha256sum -c -; \
+    dpkg -i "/tmp/${asset}"; \
+    rm -f "/tmp/${asset}" /tmp/gh_checksums.txt
 
 # renovate: datasource=github-releases depName=sharkdp/bat
 ARG BAT_VERSION=v0.26.1
