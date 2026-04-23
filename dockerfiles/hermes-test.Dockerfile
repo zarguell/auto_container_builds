@@ -140,7 +140,7 @@ RUN set -eux; \
     chmod +x /usr/local/bin/yq
 
 # renovate: datasource=github-releases depName=dandavison/delta
-ARG DELTA_VERSION=0.18.2
+ARG DELTA_VERSION=0.19.2
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="git-delta_${DELTA_VERSION}_${DEB_ARCH}.deb"; \
