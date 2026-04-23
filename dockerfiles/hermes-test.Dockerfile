@@ -104,7 +104,7 @@ RUN set -eux; \
     rm -f /tmp/fd.deb
 
 # renovate: datasource=github-releases depName=junegunn/fzf
-ARG FZF_VERSION=0.70.0
+ARG FZF_VERSION=0.71.0
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="fzf-${FZF_VERSION}-${FZF_ARCH}.tar.gz"; \
