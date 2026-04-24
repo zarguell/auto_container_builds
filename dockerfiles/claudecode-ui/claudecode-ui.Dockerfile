@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use Ubuntu base
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 # Build arguments for version control
 # renovate: datasource=github-tags depName=python/cpython
