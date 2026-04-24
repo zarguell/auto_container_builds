@@ -137,7 +137,7 @@ RUN set -eux; \
     rm -rf /tmp/dust-extract /tmp/dust.tar.gz
 
 # renovate: datasource=github-releases depName=mikefarah/yq
-ARG YQ_VERSION=4.52.5
+ARG YQ_VERSION=4.53.2
 RUN set -eux; \
     source /etc/tool-arch.env; \
     asset="yq_linux_${GO_ARCH}"; \
