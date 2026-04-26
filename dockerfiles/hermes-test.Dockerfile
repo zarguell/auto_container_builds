@@ -211,8 +211,10 @@ RUN set -eux; \
     curl -fsSL "${base}/checksums.txt" -o /tmp/gogcli_checksums.txt; \
     cd /tmp; \
     grep " ${asset}$" gogcli_checksums.txt | sha256sum -c -; \
-    tar -xzf gogcli.tar.gz -C /usr/local/bin gogcli; \
-    rm -f /tmp/gogcli.tar.gz /tmp/gogcli_checksums.txt
+    mkdir -p /tmp/gogcli-extract; \
+    tar -xzf gogcli.tar.gz -C /tmp/gogcli-extract; \
+    install -m 0755 /tmp/gogcli-extract/gog /usr/local/bin/gogcli; \
+    rm -rf /tmp/gogcli.tar.gz /tmp/gogcli_checksums.txt /tmp/gogcli-extract
 
 RUN set -eux; \
     printf '%s\n' \
