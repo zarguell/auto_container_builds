@@ -201,6 +201,19 @@ RUN set -eux; \
     dpkg -i /tmp/bottom.deb; \
     rm -f /tmp/bottom.deb
 
+# renovate: datasource=github-releases depName=steipete/gogcli
+ARG GOGCLI_VERSION=0.13.0
+RUN set -eux; \
+    source /etc/tool-arch.env; \
+    asset="gogcli_${GOGCLI_VERSION}_linux_${DEB_ARCH}.tar.gz"; \
+    base="https://github.com/steipete/gogcli/releases/download/v${GOGCLI_VERSION}"; \
+    curl -fsSL "${base}/${asset}" -o /tmp/gogcli.tar.gz; \
+    curl -fsSL "${base}/checksums.txt" -o /tmp/gogcli_checksums.txt; \
+    cd /tmp; \
+    grep " ${asset}$" gogcli_checksums.txt | sha256sum -c -; \
+    tar -xzf gogcli.tar.gz -C /usr/local/bin gogcli; \
+    rm -f /tmp/gogcli.tar.gz /tmp/gogcli_checksums.txt
+
 RUN set -eux; \
     printf '%s\n' \
       "alias ls='eza --icons=auto'" \
@@ -236,7 +249,8 @@ RUN set -eux; \
     zoxide --version; \
     hyperfine --version; \
     btm --version; \
-    gh --version
+    gh --version; \
+    gogcli --version
 
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.14.18
