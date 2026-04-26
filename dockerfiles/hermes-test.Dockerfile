@@ -45,6 +45,7 @@ RUN set -eux; \
         export GO_ARCH="amd64"; \
         export FZF_ARCH="linux_amd64"; \
         export DEB_ARCH="amd64"; \
+        export HIMALAYA_ARCH="x86_64-linux"; \
         ;; \
       arm64) \
         export RUST_GNU="aarch64-unknown-linux-gnu"; \
@@ -52,6 +53,7 @@ RUN set -eux; \
         export GO_ARCH="arm64"; \
         export FZF_ARCH="linux_arm64"; \
         export DEB_ARCH="arm64"; \
+        export HIMALAYA_ARCH="aarch64-linux"; \
         ;; \
       *) echo "Unsupported architecture: ${dpkgArch}"; exit 1 ;; \
     esac; \
@@ -61,6 +63,7 @@ RUST_MUSL=${RUST_MUSL}
 GO_ARCH=${GO_ARCH}
 FZF_ARCH=${FZF_ARCH}
 DEB_ARCH=${DEB_ARCH}
+HIMALAYA_ARCH=${HIMALAYA_ARCH}
 EOF
 
 # renovate: datasource=github-releases depName=cli/cli
@@ -209,12 +212,28 @@ RUN set -eux; \
     base="https://github.com/steipete/gogcli/releases/download/v${GOGCLI_VERSION}"; \
     curl -fsSL "${base}/${asset}" -o /tmp/gogcli.tar.gz; \
     curl -fsSL "${base}/checksums.txt" -o /tmp/gogcli_checksums.txt; \
-    cd /tmp; \
-    grep " ${asset}$" gogcli_checksums.txt | sha256sum -c -; \
+    expected_sha="$(grep " ${asset}$" /tmp/gogcli_checksums.txt | cut -d' ' -f1)"; \
+    echo "${expected_sha}  /tmp/gogcli.tar.gz" | sha256sum -c -; \
     mkdir -p /tmp/gogcli-extract; \
-    tar -xzf gogcli.tar.gz -C /tmp/gogcli-extract; \
+    tar -xzf /tmp/gogcli.tar.gz -C /tmp/gogcli-extract; \
     install -m 0755 /tmp/gogcli-extract/gog /usr/local/bin/gogcli; \
     rm -rf /tmp/gogcli.tar.gz /tmp/gogcli_checksums.txt /tmp/gogcli-extract
+
+# renovate: datasource=github-releases depName=pimalaya/himalaya
+ARG HIMALAYA_VERSION=1.2.0
+RUN set -eux; \
+    source /etc/tool-arch.env; \
+    asset="himalaya.${HIMALAYA_ARCH}.tgz"; \
+    base="https://github.com/pimalaya/himalaya/releases/download/v${HIMALAYA_VERSION}"; \
+    curl -fsSL "${base}/${asset}" -o /tmp/himalaya.tar.gz; \
+    curl -sL "https://api.github.com/repos/pimalaya/himalaya/releases/tags/v${HIMALAYA_VERSION}" \
+      | jq -r ".assets[] | select(.name == \"${asset}\") | .digest" \
+      | sed 's/^sha256://' > /tmp/expected_sha; \
+    echo "$(cat /tmp/expected_sha)  /tmp/himalaya.tar.gz" | sha256sum -c -; \
+    mkdir -p /tmp/himalaya-extract; \
+    tar -xzf /tmp/himalaya.tar.gz -C /tmp/himalaya-extract; \
+    install -m 0755 /tmp/himalaya-extract/himalaya /usr/local/bin/himalaya; \
+    rm -rf /tmp/himalaya.tar.gz /tmp/expected_sha /tmp/himalaya-extract
 
 RUN set -eux; \
     printf '%s\n' \
@@ -252,7 +271,8 @@ RUN set -eux; \
     hyperfine --version; \
     btm --version; \
     gh --version; \
-    gogcli --version
+    gogcli --version; \
+    himalaya --version
 
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.14.18
