@@ -250,14 +250,22 @@ ARG QWEN_CODE_VERSION=0.15.3
 ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
 ARG CLINE_VERSION=2.17.0
+# renovate: datasource=npm depName=@kilocode/cli
+ARG KILO_VERSION=7.2.14
+# renovate: datasource=npm depName=@google/gemini-cli
+ARG GEMINI_CLI_VERSION=0.39.1
 RUN set -eux; \
     npm install -g \
         @qwen-code/qwen-code@${QWEN_CODE_VERSION} \
         @sourcegraph/amp@${AMP_VERSION} \
-        cline@${CLINE_VERSION}; \
+        cline@${CLINE_VERSION} \
+        @kilocode/cli@${KILO_VERSION} \
+        @google/gemini-cli@${GEMINI_CLI_VERSION}; \
     qwen-code --version; \
     amp --version; \
     cline --version; \
+    kilo --version; \
+    gemini --version; \
     npm cache clean --force
 
 USER hermes
