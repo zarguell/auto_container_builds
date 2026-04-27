@@ -297,7 +297,7 @@ RUN set -eux; \
         cline@${CLINE_VERSION} \
         @kilocode/cli@${KILO_VERSION} \
         @google/gemini-cli@${GEMINI_CLI_VERSION}; \
-    qwen-code --version; \
+    qwen --version; \
     amp --version; \
     cline --version; \
     kilo --version; \
