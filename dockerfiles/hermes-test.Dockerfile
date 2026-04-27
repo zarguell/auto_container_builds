@@ -280,8 +280,6 @@ RUN set -eux; \
     npm install -g opencode-ai@${OPENCODE_VERSION}; \
     opencode --version
 
-# renovate: datasource=npm depName=@qwen-code/qwen-code
-ARG QWEN_CODE_VERSION=0.15.3
 # renovate: datasource=npm depName=@sourcegraph/amp
 ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
@@ -292,12 +290,10 @@ ARG KILO_VERSION=7.2.14
 ARG GEMINI_CLI_VERSION=0.39.1
 RUN set -eux; \
     npm install -g \
-        @qwen-code/qwen-code@${QWEN_CODE_VERSION} \
         @sourcegraph/amp@${AMP_VERSION} \
         cline@${CLINE_VERSION} \
         @kilocode/cli@${KILO_VERSION} \
         @google/gemini-cli@${GEMINI_CLI_VERSION}; \
-    qwen --version; \
     amp --version; \
     cline --version; \
     kilo --version; \
