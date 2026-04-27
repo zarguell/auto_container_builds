@@ -246,20 +246,18 @@ RUN set -eux; \
 
 # renovate: datasource=npm depName=@qwen-code/qwen-code
 ARG QWEN_CODE_VERSION=0.15.3
-RUN set -eux; \
-    npm install -g @qwen-code/qwen-code@${QWEN_CODE_VERSION}; \
-    qwen-code --version
-
 # renovate: datasource=npm depName=@sourcegraph/amp
 ARG AMP_VERSION=0.0.1777248626-ga45149
-RUN set -eux; \
-    npm install -g @sourcegraph/amp@${AMP_VERSION}; \
-    amp --version
-
 # renovate: datasource=npm depName=cline
 ARG CLINE_VERSION=2.17.0
 RUN set -eux; \
-    npm install -g cline@${CLINE_VERSION}; \
-    cline --version
+    npm install -g \
+        @qwen-code/qwen-code@${QWEN_CODE_VERSION} \
+        @sourcegraph/amp@${AMP_VERSION} \
+        cline@${CLINE_VERSION}; \
+    qwen-code --version; \
+    amp --version; \
+    cline --version; \
+    npm cache clean --force
 
 USER hermes
