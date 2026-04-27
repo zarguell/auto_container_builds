@@ -275,7 +275,7 @@ RUN set -eux; \
     himalaya --version
 
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.14.18
+ARG OPENCODE_VERSION=1.14.19
 RUN set -eux; \
     npm install -g opencode-ai@${OPENCODE_VERSION}; \
     opencode --version
