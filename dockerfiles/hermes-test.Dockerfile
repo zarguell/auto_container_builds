@@ -324,7 +324,7 @@ ENV PATH="/opt/hermes/.venv/bin:$PATH"
 # renovate: datasource=pypi depName=vdirsyncer
 # renovate: datasource=pypi depName=khal
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install vdirsyncer==0.20.0 khal==0.11.2
+    uv pip install vdirsyncer==0.20.0 khal==0.14.0
 
 RUN set -eux; \
     printf '%s\n' \
