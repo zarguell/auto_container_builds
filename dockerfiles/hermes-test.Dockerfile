@@ -34,7 +34,6 @@ RUN apt-get update \
         findutils \
         coreutils \
         lsb-release \
-        khal \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
