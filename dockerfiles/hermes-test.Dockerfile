@@ -369,6 +369,7 @@ RUN set -eux; \
 ARG OPENCODE_VERSION=1.14.19
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
+    npm_config_retry=5 npm_config_retry_timeout=30000 \
     npm install -g opencode-ai@${OPENCODE_VERSION}; \
     opencode --version
 
@@ -382,6 +383,7 @@ ARG KILO_VERSION=7.2.14
 ARG GEMINI_CLI_VERSION=0.39.1
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
+    npm_config_retry=5 npm_config_retry_timeout=30000 \
     npm install -g \
         @sourcegraph/amp@${AMP_VERSION} \
         cline@${CLINE_VERSION} \
