@@ -1,5 +1,12 @@
 FROM docker.io/nousresearch/hermes-agent:v2026.4.16@sha256:14ba9a26cf2d498ea773f1825326c404795ec4cb436a9479d22b7a345396c370
 
+COPY --from=ghcr.io/astral-sh/uv:0.11.8-python3.13-trixie-slim /uv /usr/local/bin/uv
+
+
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PYTHON_DOWNLOADS=never
+
 USER root
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -34,7 +41,6 @@ RUN apt-get update \
         findutils \
         coreutils \
         lsb-release \
-        python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
@@ -236,6 +242,12 @@ RUN set -eux; \
     install -m 0755 /tmp/himalaya-extract/himalaya /usr/local/bin/himalaya; \
     rm -rf /tmp/himalaya.tar.gz /tmp/expected_sha /tmp/himalaya-extract
 
+# renovate: datasource=pypi
+RUN uv pip install --system vdirsyncer==0.20.0
+
+# renovate: datasource=pypi
+RUN uv pip install --system khal==0.11.2
+
 RUN set -eux; \
     printf '%s\n' \
       "alias ls='eza --icons=auto'" \
@@ -302,9 +314,3 @@ RUN set -eux; \
     npm cache clean --force
 
 USER hermes
-
-# renovate: datasource=pypi
-RUN pip3 install vdirsyncer==0.20.0
-
-# renovate: datasource=pypi
-RUN pip3 install khal==0.14.0
