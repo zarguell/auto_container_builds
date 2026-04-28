@@ -301,3 +301,9 @@ RUN set -eux; \
     npm cache clean --force
 
 USER hermes
+
+# renovate: datasource=pypi
+RUN pip install vdirsyncer==0.20.0
+
+# renovate: datasource=pypi
+RUN pip install khal==0.14.0
