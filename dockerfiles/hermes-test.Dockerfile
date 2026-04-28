@@ -324,7 +324,8 @@ ENV PATH="/opt/hermes/.myenv/bin:$PATH"
 
 # renovate: datasource=pypi depName=vdirsyncer
 # renovate: datasource=pypi depName=khal
-RUN uv pip install vdirsyncer==0.20.0 khal==0.11.2
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install vdirsyncer==0.20.0 khal==0.11.2
 
 RUN set -eux; \
     printf '%s\n' \
@@ -367,7 +368,8 @@ RUN set -eux; \
 
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.14.19
-RUN set -eux; \
+RUN --mount=type=cache,target=/root/.npm \
+    set -eux; \
     npm install -g opencode-ai@${OPENCODE_VERSION}; \
     opencode --version
 
@@ -379,7 +381,8 @@ ARG CLINE_VERSION=2.17.0
 ARG KILO_VERSION=7.2.14
 # renovate: datasource=npm depName=@google/gemini-cli
 ARG GEMINI_CLI_VERSION=0.39.1
-RUN set -eux; \
+RUN --mount=type=cache,target=/root/.npm \
+    set -eux; \
     npm install -g \
         @sourcegraph/amp@${AMP_VERSION} \
         cline@${CLINE_VERSION} \
@@ -388,7 +391,6 @@ RUN set -eux; \
     amp --version; \
     cline --version; \
     kilo --version; \
-    gemini --version; \
-    npm cache clean --force
+    gemini --version
 
 USER hermes
