@@ -241,8 +241,8 @@ RUN set -eux; \
     install -m 0755 /tmp/himalaya-extract/himalaya /usr/local/bin/himalaya; \
     rm -rf /tmp/himalaya.tar.gz /tmp/expected_sha /tmp/himalaya-extract
 
-RUN uv venv /opt/hermes/.venv
-ENV PATH="/opt/hermes/.venv/bin:$PATH"
+RUN uv venv /opt/hermes/.myenv
+ENV PATH="/opt/hermes/.myenv/bin:$PATH"
 
 # renovate: datasource=pypi depName=vdirsyncer
 # renovate: datasource=pypi depName=khal
