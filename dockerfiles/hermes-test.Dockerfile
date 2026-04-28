@@ -42,6 +42,31 @@ RUN apt-get update \
         lsb-release \
     && rm -rf /var/lib/apt/lists/*
 
+# Download helper: retry + GitHub token auth + build cache
+# Usage: gh-dl <url> <output-path> [cache-key]
+#   cache-key defaults to basename of output-path
+RUN cat > /usr/local/lib/gh-dl.sh <<'SCRIPT'
+#!/usr/bin/env bash
+gh-dl() {
+    local url="$1" output="$2" cache_key="${3:-$(basename "$output")}"
+    local cache_file="/tmp/tool-cache/${cache_key}"
+
+    if [ -f "${cache_file}" ]; then
+        echo "gh-dl: cache hit ${cache_key}"
+        cp "${cache_file}" "${output}"
+        return 0
+    fi
+
+    echo "gh-dl: downloading ${url}"
+    local curl_opts=(--retry 5 --retry-delay 10 --retry-all-errors -fsSL)
+    if [ -n "${GITHUB_TOKEN:-}" ]; then
+        curl_opts+=(-H "Authorization: Bearer ${GITHUB_TOKEN}")
+    fi
+    curl "${curl_opts[@]}" "${url}" -o "${output}"
+    cp "${output}" "${cache_file}"
+}
+SCRIPT
+
 RUN set -eux; \
     dpkgArch="$(dpkg --print-architecture)"; \
     case "${dpkgArch}" in \
@@ -74,17 +99,16 @@ EOF
 
 # renovate: datasource=github-releases depName=cli/cli
 ARG GH_VERSION=2.91.0
-# TODO: Consider adding checksum verification for other tools (bat, fd, fzf, eza, dust, yq, delta, sd, zoxide, hyperfine, bottom)
-# - gh CLI has dedicated checksums.txt files in releases
-# - Other tools expose SHA256 via GitHub API: curl -sL "https://api.github.com/repos/OWNER/REPO/releases/latest" | jq '.assets[] | select(.name | test("deb$")) | .name + " " + .digest'
-# - Tradeoff: API-based verification adds complexity but improves security over HTTPS-only
-# - Tar.gz extractions would need additional handling to verify binaries inside archives
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="gh_${GH_VERSION}_linux_${DEB_ARCH}.deb"; \
     base="https://github.com/cli/cli/releases/download/v${GH_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o "/tmp/${asset}"; \
-    curl -fsSL "${base}/gh_${GH_VERSION}_checksums.txt" -o /tmp/gh_checksums.txt; \
+    gh-dl "${base}/${asset}" "/tmp/${asset}"; \
+    gh-dl "${base}/gh_${GH_VERSION}_checksums.txt" /tmp/gh_checksums.txt; \
     cd /tmp; \
     grep " ${asset}$" gh_checksums.txt | sha256sum -c -; \
     dpkg -i "/tmp/${asset}"; \
@@ -92,11 +116,15 @@ RUN set -eux; \
 
 # renovate: datasource=github-releases depName=sharkdp/bat
 ARG BAT_VERSION=v0.26.1
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="bat-${BAT_VERSION}-${RUST_GNU}.tar.gz"; \
     base="https://github.com/sharkdp/bat/releases/download/${BAT_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/bat.tar.gz; \
+    gh-dl "${base}/${asset}" /tmp/bat.tar.gz; \
     mkdir -p /tmp/bat-extract; \
     tar -xzf /tmp/bat.tar.gz -C /tmp/bat-extract --strip-components=1; \
     install -m 0755 /tmp/bat-extract/bat /usr/local/bin/bat; \
@@ -104,42 +132,58 @@ RUN set -eux; \
 
 # renovate: datasource=github-releases depName=sharkdp/fd
 ARG FD_VERSION=10.4.2
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="fd_${FD_VERSION}_${DEB_ARCH}.deb"; \
     base="https://github.com/sharkdp/fd/releases/download/v${FD_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/fd.deb; \
+    gh-dl "${base}/${asset}" /tmp/fd.deb; \
     dpkg -i /tmp/fd.deb; \
     rm -f /tmp/fd.deb
 
 # renovate: datasource=github-releases depName=junegunn/fzf
 ARG FZF_VERSION=0.71.0
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="fzf-${FZF_VERSION}-${FZF_ARCH}.tar.gz"; \
     base="https://github.com/junegunn/fzf/releases/download/v${FZF_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/fzf.tar.gz; \
+    gh-dl "${base}/${asset}" /tmp/fzf.tar.gz; \
     tar -xzf /tmp/fzf.tar.gz -C /usr/local/bin fzf; \
     rm -f /tmp/fzf.tar.gz
 
 # renovate: datasource=github-releases depName=eza-community/eza
 ARG EZA_VERSION=0.23.4
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="eza_${RUST_GNU}.tar.gz"; \
     base="https://github.com/eza-community/eza/releases/download/v${EZA_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/eza.tar.gz; \
+    gh-dl "${base}/${asset}" /tmp/eza.tar.gz; \
     tar -xzf /tmp/eza.tar.gz -C /tmp; \
     install -m 0755 /tmp/eza /usr/local/bin/eza; \
     rm -rf /tmp/eza /tmp/eza.tar.gz
 
 # renovate: datasource=github-releases depName=bootandy/dust
 ARG DUST_VERSION=1.2.4
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="dust-v${DUST_VERSION}-${RUST_GNU}.tar.gz"; \
     base="https://github.com/bootandy/dust/releases/download/v${DUST_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/dust.tar.gz; \
+    gh-dl "${base}/${asset}" /tmp/dust.tar.gz; \
     mkdir -p /tmp/dust-extract; \
     tar -xzf /tmp/dust.tar.gz -C /tmp/dust-extract --strip-components=1; \
     install -m 0755 /tmp/dust-extract/dust /usr/local/bin/dust; \
@@ -147,30 +191,42 @@ RUN set -eux; \
 
 # renovate: datasource=github-releases depName=mikefarah/yq
 ARG YQ_VERSION=4.53.2
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="yq_linux_${GO_ARCH}"; \
     base="https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /usr/local/bin/yq; \
+    gh-dl "${base}/${asset}" /usr/local/bin/yq; \
     chmod +x /usr/local/bin/yq
 
 # renovate: datasource=github-releases depName=dandavison/delta
 ARG DELTA_VERSION=0.19.2
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="git-delta_${DELTA_VERSION}_${DEB_ARCH}.deb"; \
     base="https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/delta.deb; \
+    gh-dl "${base}/${asset}" /tmp/delta.deb; \
     dpkg -i /tmp/delta.deb; \
     rm -f /tmp/delta.deb
 
 # renovate: datasource=github-releases depName=chmln/sd
 ARG SD_VERSION=v1.1.0
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="sd-${SD_VERSION}-${RUST_MUSL}.tar.gz"; \
     base="https://github.com/chmln/sd/releases/download/${SD_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/sd.tar.gz; \
+    gh-dl "${base}/${asset}" /tmp/sd.tar.gz; \
     mkdir -p /tmp/sd-extract; \
     tar -xzf /tmp/sd.tar.gz -C /tmp/sd-extract --strip-components=1; \
     install -m 0755 /tmp/sd-extract/sd /usr/local/bin/sd; \
@@ -178,11 +234,15 @@ RUN set -eux; \
 
 # renovate: datasource=github-releases depName=ajeetdsouza/zoxide
 ARG ZOXIDE_VERSION=0.9.9
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="zoxide-${ZOXIDE_VERSION}-${RUST_MUSL}.tar.gz"; \
     base="https://github.com/ajeetdsouza/zoxide/releases/download/v${ZOXIDE_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/zoxide.tar.gz; \
+    gh-dl "${base}/${asset}" /tmp/zoxide.tar.gz; \
     tar -xzf /tmp/zoxide.tar.gz -C /tmp; \
     install -m 0755 /tmp/zoxide /usr/local/bin/zoxide; \
     mkdir -p /etc/profile.d; \
@@ -192,32 +252,44 @@ RUN set -eux; \
 
 # renovate: datasource=github-releases depName=sharkdp/hyperfine
 ARG HYPERFINE_VERSION=1.20.0
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="hyperfine_${HYPERFINE_VERSION}_${DEB_ARCH}.deb"; \
     base="https://github.com/sharkdp/hyperfine/releases/download/v${HYPERFINE_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/hyperfine.deb; \
+    gh-dl "${base}/${asset}" /tmp/hyperfine.deb; \
     dpkg -i /tmp/hyperfine.deb; \
     rm -f /tmp/hyperfine.deb
 
 # renovate: datasource=github-releases depName=ClementTsang/bottom
 ARG BOTTOM_VERSION=0.12.3
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="bottom_${BOTTOM_VERSION}-1_${DEB_ARCH}.deb"; \
     base="https://github.com/ClementTsang/bottom/releases/download/${BOTTOM_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/bottom.deb; \
+    gh-dl "${base}/${asset}" /tmp/bottom.deb; \
     dpkg -i /tmp/bottom.deb; \
     rm -f /tmp/bottom.deb
 
 # renovate: datasource=github-releases depName=steipete/gogcli
 ARG GOGCLI_VERSION=0.13.0
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="gogcli_${GOGCLI_VERSION}_linux_${DEB_ARCH}.tar.gz"; \
     base="https://github.com/steipete/gogcli/releases/download/v${GOGCLI_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/gogcli.tar.gz; \
-    curl -fsSL "${base}/checksums.txt" -o /tmp/gogcli_checksums.txt; \
+    gh-dl "${base}/${asset}" /tmp/gogcli.tar.gz; \
+    gh-dl "${base}/checksums.txt" /tmp/gogcli_checksums.txt; \
     expected_sha="$(grep " ${asset}$" /tmp/gogcli_checksums.txt | cut -d' ' -f1)"; \
     echo "${expected_sha}  /tmp/gogcli.tar.gz" | sha256sum -c -; \
     mkdir -p /tmp/gogcli-extract; \
@@ -227,14 +299,20 @@ RUN set -eux; \
 
 # renovate: datasource=github-releases depName=pimalaya/himalaya
 ARG HIMALAYA_VERSION=1.2.0
-RUN set -eux; \
+RUN --mount=type=cache,target=/tmp/tool-cache \
+    --mount=type=secret,id=github_token \
+    set -eux; \
+    source /usr/local/lib/gh-dl.sh; \
+    export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; \
     source /etc/tool-arch.env; \
     asset="himalaya.${HIMALAYA_ARCH}.tgz"; \
     base="https://github.com/pimalaya/himalaya/releases/download/v${HIMALAYA_VERSION}"; \
-    curl -fsSL "${base}/${asset}" -o /tmp/himalaya.tar.gz; \
-    curl -sL "https://api.github.com/repos/pimalaya/himalaya/releases/tags/v${HIMALAYA_VERSION}" \
-      | jq -r ".assets[] | select(.name == \"${asset}\") | .digest" \
-      | sed 's/^sha256://' > /tmp/expected_sha; \
+    gh-dl "${base}/${asset}" /tmp/himalaya.tar.gz; \
+    curl -fsSL --retry 5 --retry-delay 10 --retry-all-errors \
+        -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+        "https://api.github.com/repos/pimalaya/himalaya/releases/tags/v${HIMALAYA_VERSION}" \
+        | jq -r ".assets[] | select(.name == \"${asset}\") | .digest" \
+        | sed 's/^sha256://' > /tmp/expected_sha; \
     echo "$(cat /tmp/expected_sha)  /tmp/himalaya.tar.gz" | sha256sum -c -; \
     mkdir -p /tmp/himalaya-extract; \
     tar -xzf /tmp/himalaya.tar.gz -C /tmp/himalaya-extract; \
