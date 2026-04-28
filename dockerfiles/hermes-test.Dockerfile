@@ -34,6 +34,7 @@ RUN apt-get update \
         findutils \
         coreutils \
         lsb-release \
+        python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
@@ -303,7 +304,7 @@ RUN set -eux; \
 USER hermes
 
 # renovate: datasource=pypi
-RUN pip install vdirsyncer==0.20.0
+RUN pip3 install vdirsyncer==0.20.0
 
 # renovate: datasource=pypi
-RUN pip install khal==0.14.0
+RUN pip3 install khal==0.14.0
