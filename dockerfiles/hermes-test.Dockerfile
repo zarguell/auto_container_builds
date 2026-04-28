@@ -1,7 +1,6 @@
 FROM docker.io/nousresearch/hermes-agent:v2026.4.16@sha256:14ba9a26cf2d498ea773f1825326c404795ec4cb436a9479d22b7a345396c370
 
-COPY --from=ghcr.io/astral-sh/uv:0.11.8-python3.13-trixie-slim /uv /usr/local/bin/uv
-
+COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /usr/local/bin/
 
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
