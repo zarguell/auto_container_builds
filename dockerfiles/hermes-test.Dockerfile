@@ -241,11 +241,12 @@ RUN set -eux; \
     install -m 0755 /tmp/himalaya-extract/himalaya /usr/local/bin/himalaya; \
     rm -rf /tmp/himalaya.tar.gz /tmp/expected_sha /tmp/himalaya-extract
 
-# renovate: datasource=pypi
-RUN uv pip install --system vdirsyncer==0.20.0
+RUN uv venv /opt/hermes/.venv
+ENV PATH="/opt/hermes/.venv/bin:$PATH"
 
-# renovate: datasource=pypi
-RUN uv pip install --system khal==0.11.2
+# renovate: datasource=pypi depName=vdirsyncer
+# renovate: datasource=pypi depName=khal
+RUN uv pip install vdirsyncer==0.20.0 khal==0.11.2
 
 RUN set -eux; \
     printf '%s\n' \
