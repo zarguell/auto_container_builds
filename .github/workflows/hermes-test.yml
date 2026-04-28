@@ -38,3 +38,5 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hermes:test
           secrets: |
             id=github_token,env=GITHUB_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
