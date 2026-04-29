@@ -40,6 +40,8 @@ RUN apt-get update \
         findutils \
         coreutils \
         lsb-release \
+        hledger \
+        just \
     && rm -rf /var/lib/apt/lists/*
 
 # Download helper: retry + GitHub token auth + build cache
@@ -363,7 +365,9 @@ RUN set -eux; \
     btm --version; \
     gh --version; \
     gogcli --version; \
-    himalaya --version
+    himalaya --version; \
+    just --version; \
+    hledger --version || true
 
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.14.19
