@@ -370,7 +370,7 @@ RUN set -eux; \
     hledger --version || true
 
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.14.19
+ARG OPENCODE_VERSION=1.14.31
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
