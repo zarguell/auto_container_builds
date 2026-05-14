@@ -1,4 +1,4 @@
-FROM docker.io/nousresearch/hermes-agent:v2026.4.30@sha256:900e1f8076662a20a685142321808085cc0b2935bb904b234c6828b4d7fb0f77
+FROM docker.io/nousresearch/hermes-agent:v2026.5.7@sha256:9462082533e603fc6ba4259c51d7722dcd8cbb0f348488ceedc35d06fa8f9324
 
 COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /usr/local/bin/
 
