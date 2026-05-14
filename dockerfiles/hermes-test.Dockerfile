@@ -281,7 +281,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/bottom.deb
 
 # renovate: datasource=github-releases depName=steipete/gogcli
-ARG GOGCLI_VERSION=0.14.0
+ARG GOGCLI_VERSION=0.15.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -370,7 +370,7 @@ RUN set -eux; \
     hledger --version || true
 
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.14.33
+ARG OPENCODE_VERSION=1.14.40
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
@@ -382,7 +382,7 @@ ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
 ARG CLINE_VERSION=2.18.0
 # renovate: datasource=npm depName=@kilocode/cli
-ARG KILO_VERSION=7.2.34
+ARG KILO_VERSION=7.2.42
 # renovate: datasource=npm depName=@google/gemini-cli
 ARG GEMINI_CLI_VERSION=0.41.2
 RUN --mount=type=cache,target=/root/.npm \
