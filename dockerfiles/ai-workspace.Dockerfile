@@ -342,6 +342,12 @@ COPY dockerfiles/ai-workspace/supervisord.conf /etc/supervisor/conf.d/ai-workspa
 # Ensure the workspace directory exists and is writable
 RUN mkdir -p /workspace && chown -R hermes:hermes /workspace
 
+# Patch the base entrypoint so it defaults to supervisord instead of
+# running `hermes "$@"` directly.  This way even if someone launches the
+# container with unexpected args (e.g. `gateway run`), supervisor still
+# starts and manages both codenomad + hermes-gateway.
+RUN sed -i 's|exec hermes "\$@"|exec supervisord -c /etc/supervisor/conf.d/ai-workspace.conf|' /opt/hermes/docker/entrypoint.sh
+
 # ── Runtime ────────────────────────────────────────────────────────
 # Keep the hermes entrypoint (handles volume setup, UID remapping, gosu drop)
 # Override CMD: entrypoint will detect supervisord as an executable and exec it
