@@ -325,7 +325,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 # --- CodeNomad Server ---
 # renovate: datasource=npm depName=@neuralnomads/codenomad
-ARG CODENOMAD_VERSION=0.13.3
+ARG CODENOMAD_VERSION=0.15.0
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
