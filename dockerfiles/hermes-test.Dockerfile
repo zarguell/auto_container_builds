@@ -384,7 +384,7 @@ ARG CLINE_VERSION=2.18.0
 # renovate: datasource=npm depName=@kilocode/cli
 ARG KILO_VERSION=7.2.48
 # renovate: datasource=npm depName=@google/gemini-cli
-ARG GEMINI_CLI_VERSION=0.41.2
+ARG GEMINI_CLI_VERSION=0.42.0
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
