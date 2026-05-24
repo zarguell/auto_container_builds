@@ -21,6 +21,7 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/monica-fpm-supervisor-alpine` | [monicahq/docker](https://github.com/monicahq/docker) | Sun 13:25 | linux/amd64, linux/arm64 |
 | `zarguell/monica-nginx` | [monicahq/docker](https://github.com/monicahq/docker) | Sun 13:25 | linux/amd64, linux/arm64 |
 | `zarguell/firefly-iii-email-summary` | [davidschlachter/firefly-iii-email-summary](https://github.com/davidschlachter/firefly-iii-email-summary) | Sun 09:05 | linux/amd64, linux/arm64 |
+| `zarguell/whosatmyfeeder` | [mmcc-xx/WhosAtMyFeeder](https://github.com/mmcc-xx/WhosAtMyFeeder) | Sun 07:35 | linux/amd64, linux/arm64 |
 
 ### AI / Agent Workspaces
 
@@ -31,6 +32,7 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/ai-workspace` | Hermes + [CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:30 | linux/amd64, linux/arm64 |
 | `zarguell/codenomad` | [NeuralNomadsAI/CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:20 | linux/amd64, linux/arm64 |
 | `zarguell/claudecode-ui` | [itsbrex/claudecode-ui](https://github.com/itsbrex/claudecode-ui) | Sun 16:45 | linux/amd64, linux/arm64 |
+| `zarguell/openclaw` | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Sun 07:45 | linux/amd64, linux/arm64 |
 
 ### Security & AD Tools
 
@@ -46,13 +48,6 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/pashword` | [pashword/pashword](https://github.com/pashword/pashword) | Sun 08:40 | linux/amd64, linux/arm64 |
 | `zarguell/libmedium` | [realaravinth/libmedium](https://git.batsense.net/realaravinth/libmedium) | Sun 08:50 | linux/amd64, linux/arm64 |
 | `zarguell/maglit` | [NayamAmarshe/MagLit](https://github.com/NayamAmarshe/MagLit) | Sun 08:25 | linux/amd64, linux/arm64 |
-
-### Games
-
-| Docker Image | Source Repository | Cron (UTC) | Architectures |
-|---|---|---|---|
-| `zarguell/openclaw` | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Sun 07:45 | linux/amd64, linux/arm64 |
-| `zarguell/whosatmyfeeder` | [mmcc-xx/WhosAtMyFeeder](https://github.com/mmcc-xx/WhosAtMyFeeder) | Sun 07:35 | linux/amd64, linux/arm64 |
 
 ### Ghostwriter Stack (SpecterOps)
 
