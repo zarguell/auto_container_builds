@@ -47,14 +47,14 @@ FROM python:3.14-slim-bookworm
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libstdc++6 \
-    libffi7 \
-    libssl1.1 \
+    libffi8 \
+    libssl3 \
     zlib1g \
     libjpeg62-turbo \
     libfreetype6 \
     liblcms2-2 \
     libopenjp2-7 \
-    libtiff5 \
+    libtiff6 \
     tk8.6 \
     tcl8.6 \
     libharfbuzz0b \
