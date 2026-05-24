@@ -8,7 +8,7 @@ RUN git clone https://github.com/c3c/ADExplorerSnapshot.py /app
 # Create virtual environment and install the package
 RUN python -m venv venv
 ENV PATH="/app/venv/bin:$PATH"
-RUN pip install --upgrade pip && pip install .
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir .
 
 FROM cgr.dev/chainguard/python:latest
 

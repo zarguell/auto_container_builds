@@ -38,8 +38,8 @@ RUN git clone https://github.com/c3c/ADExplorerSnapshot.py.git /app
 # Install Python dependencies in a virtual environment
 RUN python3 -m venv /app/venv \
     && . /app/venv/bin/activate \
-    && pip install --upgrade pip \
-    && pip install .
+    && pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir .
 
 # Stage 2: Runtime stage
 FROM python:3.14-slim-bookworm@sha256:a9bee15510a364124aa24692899d269835683b883de42f7ebec8c293cf679ccb
