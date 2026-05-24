@@ -8,7 +8,7 @@ RUN git clone https://github.com/ustayready/shredhound.git .
 # Create virtual environment and install dependencies
 RUN python -m venv venv
 ENV PATH="/app/venv/bin:$PATH"
-RUN pip install -r requirements.txt
+# No requirements.txt needed — shred.py is pure stdlib with no external deps
 
 FROM cgr.dev/chainguard/python:latest
 

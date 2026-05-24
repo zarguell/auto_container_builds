@@ -15,7 +15,7 @@ RUN apt-get update && \
         wget git clang g++ cmake autotools-dev build-essential \
         mingw-w64 unzip libcapstone-dev libssl-dev cowsay mono-devel \
         python3-pip golang wine64-tools && \
-    pip3 install --no-warn-script-location xortool && \
+    pip3 install --break-system-packages --no-warn-script-location xortool && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Clone repo,remove 'sudo' commands from the installation script and run the installation script for PEzor
