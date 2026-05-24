@@ -7,23 +7,18 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 
 ## Images
 
-### Self-Hosted Apps
+### Self-Hosted Apps (Active)
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
 |---|---|---|---|
 | `zarguell/typemill` | [typemill/typemill](https://github.com/typemill/typemill) | Sun 06:15 | linux/amd64, linux/arm64 |
 | `zarguell/documenso` | [documenso/documenso](https://github.com/documenso/documenso) | Sun 07:05 | linux/amd64, linux/arm64 |
-| `zarguell/hoppscotch-app` | [hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch) | Sun 07:20 | linux/amd64, linux/arm64 |
-| `zarguell/hoppscotch-backend` | [hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch) | Sun 07:15 | linux/amd64, linux/arm64 |
-| `zarguell/hoppscotch-sh-admin` | [hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch) | Sun 07:25 | linux/amd64, linux/arm64 |
-| `zarguell/tabby-web` | [Eugeny/tabby-web](https://github.com/Eugeny/tabby-web) | Sun 09:10 | linux/amd64, linux/arm64 |
-| `zarguell/ryot` | [IgnisDa/ryot](https://github.com/IgnisDa/ryot) | Sun 06:30 | linux/arm64 |
 | `zarguell/monica-fpm-supervisor-alpine` | [monicahq/docker](https://github.com/monicahq/docker) | Sun 13:25 | linux/amd64, linux/arm64 |
 | `zarguell/monica-nginx` | [monicahq/docker](https://github.com/monicahq/docker) | Sun 13:25 | linux/amd64, linux/arm64 |
 | `zarguell/firefly-iii-email-summary` | [davidschlachter/firefly-iii-email-summary](https://github.com/davidschlachter/firefly-iii-email-summary) | Sun 09:05 | linux/amd64, linux/arm64 |
 | `zarguell/whosatmyfeeder` | [mmcc-xx/WhosAtMyFeeder](https://github.com/mmcc-xx/WhosAtMyFeeder) | Sun 07:35 | linux/amd64, linux/arm64 |
 
-### AI / Agent Workspaces
+### AI / Agent Workspaces (Active)
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
 |---|---|---|---|
@@ -34,7 +29,7 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/claudecode-ui` | [itsbrex/claudecode-ui](https://github.com/itsbrex/claudecode-ui) | Sun 16:45 | linux/amd64, linux/arm64 |
 | `zarguell/openclaw` | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Sun 07:45 | linux/amd64, linux/arm64 |
 
-### Security & AD Tools
+### Security & AD Tools (Active)
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
 |---|---|---|---|
@@ -47,9 +42,8 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/beelzebub` | [mariocandela/beelzebub](https://github.com/mariocandela/beelzebub) | Sun 08:05 | linux/arm64 |
 | `zarguell/pashword` | [pashword/pashword](https://github.com/pashword/pashword) | Sun 08:40 | linux/amd64, linux/arm64 |
 | `zarguell/libmedium` | [realaravinth/libmedium](https://git.batsense.net/realaravinth/libmedium) | Sun 08:50 | linux/amd64, linux/arm64 |
-| `zarguell/maglit` | [NayamAmarshe/MagLit](https://github.com/NayamAmarshe/MagLit) | Sun 08:25 | linux/amd64, linux/arm64 |
 
-### Ghostwriter Stack (SpecterOps)
+### Ghostwriter Stack (Active)
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
 |---|---|---|---|
@@ -59,6 +53,19 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/ghostwriter_local_hasura` | [GhostManager/Ghostwriter](https://github.com/GhostManager/Ghostwriter) | Sun 11:25 | linux/amd64, linux/arm64 |
 | `zarguell/ghostwriter_production_django` | [GhostManager/Ghostwriter](https://github.com/GhostManager/Ghostwriter) | Sun 11:05 | linux/amd64, linux/arm64 |
 | `zarguell/ghostwriter_production_nginx` | [GhostManager/Ghostwriter](https://github.com/GhostManager/Ghostwriter) | Sun 11:30 | linux/amd64, linux/arm64 |
+
+### Disabled (not actively maintained)
+
+These workflows exist in the repo but have been manually disabled in the GitHub UI. Dockerfiles and workflow YAML remain for reference.
+
+| Docker Image | Source Repository | Notes |
+|---|---|---|
+| `zarguell/hoppscotch-app` | [hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch) | Manually disabled — 0 runs |
+| `zarguell/hoppscotch-backend` | [hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch) | Manually disabled — 0 runs |
+| `zarguell/hoppscotch-sh-admin` | [hoppscotch/hoppscotch](https://github.com/hoppscotch/hoppscotch) | Manually disabled — 0 runs |
+| `zarguell/tabby-web` | [Eugeny/tabby-web](https://github.com/Eugeny/tabby-web) | Manually disabled — 0 runs |
+| `zarguell/ryot` | [IgnisDa/ryot](https://github.com/IgnisDa/ryot) | Manually disabled — 0 runs, arm64 only |
+| `zarguell/maglit` | [NayamAmarshe/MagLit](https://github.com/NayamAmarshe/MagLit) | Manually disabled — all runs consistently failing |
 
 ---
 
