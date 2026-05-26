@@ -382,7 +382,7 @@ ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
 ARG CLINE_VERSION=3.0.5
 # renovate: datasource=npm depName=@kilocode/cli
-ARG KILO_VERSION=7.3.0
+ARG KILO_VERSION=7.3.1
 # renovate: datasource=npm depName=@google/gemini-cli
 ARG GEMINI_CLI_VERSION=0.42.0
 RUN --mount=type=cache,target=/root/.npm \
