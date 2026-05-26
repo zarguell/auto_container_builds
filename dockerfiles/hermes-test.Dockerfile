@@ -380,7 +380,7 @@ RUN --mount=type=cache,target=/root/.npm \
 # renovate: datasource=npm depName=@sourcegraph/amp
 ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
-ARG CLINE_VERSION=3.0.5
+ARG CLINE_VERSION=3.0.7
 # renovate: datasource=npm depName=@kilocode/cli
 ARG KILO_VERSION=7.3.0
 # renovate: datasource=npm depName=@google/gemini-cli
