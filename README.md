@@ -22,8 +22,8 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
 |---|---|---|---|
-| `zarguell/hermes` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Sun 07:50 | linux/amd64, linux/arm64 |
-| `zarguell/hermes:test` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Sun 07:50 | linux/amd64 |
+| `zarguell/hermes:slim` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Sun 07:50 | linux/amd64, linux/arm64 |
+| `zarguell/hermes:latest` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Sun 07:50 | linux/amd64 |
 | `zarguell/ai-workspace` | Hermes + [CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:30 | linux/amd64, linux/arm64 |
 | `zarguell/codenomad` | [NeuralNomadsAI/CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:20 | linux/amd64, linux/arm64 |
 | `zarguell/claudecode-ui` | [itsbrex/claudecode-ui](https://github.com/itsbrex/claudecode-ui) | Sun 16:45 | linux/amd64, linux/arm64 |
@@ -79,12 +79,12 @@ Each container has a **Dockerfile** in `dockerfiles/` and a **GitHub Actions wor
 |---|---|---|
 | **Source checkout** | Workflow checks out the upstream repo and builds its Dockerfile | typemill, documenso, hoppscotch, maglit, pashword, ryot, tabby-web, openclaw, monica, ghostwriter, whosatmyfeeder |
 | **Self-contained Dockerfile** | Dockerfile clones or installs from source, workflow checks out this repo only | adexplorersnapshot-bloodhound, rusthound-ce, shredhound, sccmhunter, pezor, firefly-iii-email-summary |
-| **Base image extension** | Extends an existing image with additional tools | hermes, hermes:test, ai-workspace, codenomad, claudecode-ui |
+| **Base image extension** | Extends an existing image with additional tools | hermes:latest, hermes:slim, ai-workspace, codenomad, claudecode-ui |
 
 ### Architecture Notes
 
 - **linux/arm64 only**: ryot, beelzebub (upstream only publishes amd64)
-- **linux/amd64 only**: hermes:test (test tag, single-arch for faster iteration)
+- **linux/amd64 only**: hermes:latest (full tooling, single-arch for faster builds)
 - All others build for **both** amd64 and arm64 via QEMU emulation + Docker buildx
 
 ---
