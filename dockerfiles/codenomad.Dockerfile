@@ -141,7 +141,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/fd.deb
 
 # renovate: datasource=github-releases depName=junegunn/fzf
-ARG FZF_VERSION=0.72.0
+ARG FZF_VERSION=0.73.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
