@@ -98,7 +98,7 @@ EOF
 # ── Dev tools ──────────────────────────────────────────────────────
 
 # renovate: datasource=github-releases depName=cli/cli
-ARG GH_VERSION=2.92.0
+ARG GH_VERSION=2.93.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
