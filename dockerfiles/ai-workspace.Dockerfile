@@ -145,7 +145,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/fd.deb
 
 # renovate: datasource=github-releases depName=junegunn/fzf
-ARG FZF_VERSION=0.73.0
+ARG FZF_VERSION=0.73.1
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -319,7 +319,7 @@ RUN set -eux; \
 
 # ── OpenCode CLI ───────────────────────────────────────────────────
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.15.10
+ARG OPENCODE_VERSION=1.15.13
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
