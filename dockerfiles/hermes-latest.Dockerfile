@@ -147,7 +147,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/fd.deb
 
 # renovate: datasource=github-releases depName=junegunn/fzf
-ARG FZF_VERSION=0.73.0
+ARG FZF_VERSION=0.73.1
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -370,7 +370,7 @@ RUN set -eux; \
     hledger --version || true
 
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.15.10
+ARG OPENCODE_VERSION=1.15.13
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
@@ -380,9 +380,9 @@ RUN --mount=type=cache,target=/root/.npm \
 # renovate: datasource=npm depName=@sourcegraph/amp
 ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
-ARG CLINE_VERSION=3.0.13
+ARG CLINE_VERSION=3.0.15
 # renovate: datasource=npm depName=@kilocode/cli
-ARG KILO_VERSION=7.3.8
+ARG KILO_VERSION=7.3.18
 # renovate: datasource=npm depName=@google/gemini-cli
 ARG GEMINI_CLI_VERSION=0.44.1
 RUN --mount=type=cache,target=/root/.npm \
