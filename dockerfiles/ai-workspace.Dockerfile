@@ -190,7 +190,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -rf /tmp/dust-extract /tmp/dust.tar.gz
 
 # renovate: datasource=github-releases depName=mikefarah/yq
-ARG YQ_VERSION=4.53.2
+ARG YQ_VERSION=4.53.3
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
