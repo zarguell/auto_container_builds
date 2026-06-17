@@ -380,11 +380,11 @@ RUN --mount=type=cache,target=/root/.npm \
 # renovate: datasource=npm depName=@sourcegraph/amp
 ARG AMP_VERSION=0.0.1777248626-ga45149
 # renovate: datasource=npm depName=cline
-ARG CLINE_VERSION=3.0.21
+ARG CLINE_VERSION=3.0.23
 # renovate: datasource=npm depName=@kilocode/cli
 ARG KILO_VERSION=7.3.41
 # renovate: datasource=npm depName=@google/gemini-cli
-ARG GEMINI_CLI_VERSION=0.44.1
+ARG GEMINI_CLI_VERSION=0.46.0
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
