@@ -1,4 +1,4 @@
-FROM docker.io/nousresearch/hermes-agent:v2026.6.5@sha256:9ad3b04ec916ea2c2da22358fd43b024c788d74073210695af88bfc2e63869b4
+FROM docker.io/nousresearch/hermes-agent:v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
 
 COPY --from=ghcr.io/astral-sh/uv:0.11.8@sha256:3b7b60a81d3c57ef471703e5c83fd4aaa33abcd403596fb22ab07db85ae91347 /uv /uvx /usr/local/bin/
 
@@ -319,7 +319,7 @@ RUN set -eux; \
 
 # ── OpenCode CLI ───────────────────────────────────────────────────
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.15.13
+ARG OPENCODE_VERSION=1.17.7
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
