@@ -316,7 +316,7 @@ RUN set -eux; \
 
 # --- OpenCode CLI ---
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.15.13
+ARG OPENCODE_VERSION=1.17.7
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
