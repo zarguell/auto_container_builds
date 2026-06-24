@@ -9,7 +9,7 @@ ARG PYTHON_VERSION_LATEST=3.13.9
 # renovate: datasource=github-tags depName=python/cpython
 ARG PYTHON_VERSION_COMPAT=3.11.14
 # renovate: datasource=node-version depName=node
-ARG NODE_VERSION=24.15.0
+ARG NODE_VERSION=24.17.0
 # renovate: datasource=github-releases depName=nvm-sh/nvm
 ARG NVM_VERSION=0.40.5
 # renovate: datasource=github-releases depName=pyenv/pyenv
