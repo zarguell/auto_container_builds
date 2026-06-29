@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim@sha256:242549cd46785b480c832479a730f4f2a20865d61ea2e404fdb2a5c3d3b73ecf
+FROM node:26-bookworm-slim@sha256:3fe807a03a4436e7bc76b7e84e6861899cd75c9028ae99bc00581940141ae150
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
@@ -94,7 +94,7 @@ DEB_ARCH=${DEB_ARCH}
 EOF
 
 # renovate: datasource=github-releases depName=cli/cli
-ARG GH_VERSION=2.92.0
+ARG GH_VERSION=2.94.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -141,7 +141,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/fd.deb
 
 # renovate: datasource=github-releases depName=junegunn/fzf
-ARG FZF_VERSION=0.73.0
+ARG FZF_VERSION=0.73.1
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -186,7 +186,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -rf /tmp/dust-extract /tmp/dust.tar.gz
 
 # renovate: datasource=github-releases depName=mikefarah/yq
-ARG YQ_VERSION=4.53.2
+ARG YQ_VERSION=4.53.3
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -316,7 +316,7 @@ RUN set -eux; \
 
 # --- OpenCode CLI ---
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.15.10
+ARG OPENCODE_VERSION=1.17.7
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
@@ -325,7 +325,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 # --- CodeNomad Server ---
 # renovate: datasource=npm depName=@neuralnomads/codenomad
-ARG CODENOMAD_VERSION=0.16.0
+ARG CODENOMAD_VERSION=0.17.0
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
