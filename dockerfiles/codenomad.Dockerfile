@@ -94,7 +94,7 @@ DEB_ARCH=${DEB_ARCH}
 EOF
 
 # renovate: datasource=github-releases depName=cli/cli
-ARG GH_VERSION=2.93.0
+ARG GH_VERSION=2.94.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -316,7 +316,7 @@ RUN set -eux; \
 
 # --- OpenCode CLI ---
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.15.13
+ARG OPENCODE_VERSION=1.17.7
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
@@ -325,7 +325,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 # --- CodeNomad Server ---
 # renovate: datasource=npm depName=@neuralnomads/codenomad
-ARG CODENOMAD_VERSION=0.16.0
+ARG CODENOMAD_VERSION=0.17.0
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
