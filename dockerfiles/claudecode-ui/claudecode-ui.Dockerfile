@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Use Ubuntu base
-FROM ubuntu:26.04@sha256:f3d28607ddd78734bb7f71f117f3c6706c666b8b76cbff7c9ff6e5718d46ff64
+FROM ubuntu:26.04@sha256:53958ec7b67c2c9355df922dd08dbf0360611f8c3cdb656875e81873db9ffdba
 
 # Build arguments for version control
 # renovate: datasource=github-tags depName=python/cpython
@@ -11,7 +11,7 @@ ARG PYTHON_VERSION_COMPAT=3.11.14
 # renovate: datasource=node-version depName=node
 ARG NODE_VERSION=24.15.0
 # renovate: datasource=github-releases depName=nvm-sh/nvm
-ARG NVM_VERSION=0.40.4
+ARG NVM_VERSION=0.40.5
 # renovate: datasource=github-releases depName=pyenv/pyenv
 ARG PYENV_GIT_TAG=v2.6.13
 
