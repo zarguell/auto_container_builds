@@ -267,7 +267,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/hyperfine.deb
 
 # renovate: datasource=github-releases depName=ClementTsang/bottom
-ARG BOTTOM_VERSION=0.12.3
+ARG BOTTOM_VERSION=0.14.1
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
