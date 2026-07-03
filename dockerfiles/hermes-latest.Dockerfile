@@ -281,7 +281,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/bottom.deb
 
 # renovate: datasource=github-releases depName=steipete/gogcli
-ARG GOGCLI_VERSION=0.30.0
+ARG GOGCLI_VERSION=0.31.1
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
