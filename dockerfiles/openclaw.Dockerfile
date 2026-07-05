@@ -4,7 +4,7 @@ FROM node:26-bookworm-slim@sha256:3fe807a03a4436e7bc76b7e84e6861899cd75c9028ae99
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
-RUN corepack enable
+RUN npm install -g corepack && corepack enable
 
 WORKDIR /app
 
