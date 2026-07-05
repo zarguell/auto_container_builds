@@ -261,7 +261,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/hyperfine.deb
 
 # renovate: datasource=github-releases depName=ClementTsang/bottom
-ARG BOTTOM_VERSION=0.14.1
+ARG BOTTOM_VERSION=0.14.2
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
@@ -316,7 +316,7 @@ RUN set -eux; \
 
 # --- OpenCode CLI ---
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.17.9
+ARG OPENCODE_VERSION=1.17.11
 RUN --mount=type=cache,target=/root/.npm \
     set -eux; \
     npm_config_retry=5 npm_config_retry_timeout=30000 \
