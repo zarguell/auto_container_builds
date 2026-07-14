@@ -28,6 +28,7 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/codenomad` | [NeuralNomadsAI/CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:20 | linux/amd64, linux/arm64 |
 | `zarguell/claudecode-ui` | [itsbrex/claudecode-ui](https://github.com/itsbrex/claudecode-ui) | Sun 16:45 | linux/amd64, linux/arm64 |
 | `zarguell/openclaw` | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Sun 07:45 | linux/amd64, linux/arm64 |
+| `zarguell/pi-web-agent` | [zarguell/pi-web-agent](https://github.com/zarguell/pi-web-agent) | Sun 16:50 | linux/amd64, linux/arm64 |
 
 ### Security & AD Tools (Active)
 
@@ -79,7 +80,7 @@ Each container has a **Dockerfile** in `dockerfiles/` and a **GitHub Actions wor
 |---|---|---|
 | **Source checkout** | Workflow checks out the upstream repo and builds its Dockerfile | typemill, documenso, hoppscotch, maglit, pashword, ryot, tabby-web, openclaw, monica, ghostwriter, whosatmyfeeder |
 | **Self-contained Dockerfile** | Dockerfile clones or installs from source, workflow checks out this repo only | adexplorersnapshot-bloodhound, rusthound-ce, shredhound, sccmhunter, pezor, firefly-iii-email-summary |
-| **Base image extension** | Extends an existing image with additional tools | hermes:latest, hermes:slim, ai-workspace, codenomad, claudecode-ui |
+| **Base image extension** | Extends an existing image with additional tools | hermes:latest, hermes:slim, ai-workspace, codenomad, claudecode-ui, pi-web-agent |
 
 ### Architecture Notes
 
