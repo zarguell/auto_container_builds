@@ -20,6 +20,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Pi Coding Agent and PI WEB at pinned versions
+# --mount=type=cache caches npm in /root/.npm across builds
 RUN --mount=type=cache,target=/root/.npm \
     set -eux \
     && npm_config_retry=5 npm_config_retry_timeout=30000 \
@@ -28,12 +29,15 @@ RUN --mount=type=cache,target=/root/.npm \
         "@jmfederico/pi-web@${PI_WEB_VERSION}" \
     && npm list -g --depth=0
 
-# Create workspace directory, use node user
-RUN mkdir -p /workspace && chown node:node /workspace
+# Run as root so the agent can install tools (apt, npm, pip, etc.).
+# The container IS the security boundary — see SECURITY in README.md.
+# pam: root, intentional — agent containers that can't install tools get
+#   piped around by users anyway, which is strictly worse.
+RUN mkdir -p /workspace
 
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
-USER node
+USER root
 WORKDIR /workspace
 
 ENV PI_WEB_HOST=0.0.0.0
