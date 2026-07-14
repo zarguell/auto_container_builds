@@ -9,6 +9,11 @@ ARG PI_CODING_AGENT_VERSION=0.80.7
 # renovate: datasource=npm depName=@jmfederico/pi-web
 ARG PI_WEB_VERSION=1.202607.0
 
+# renovate: datasource=npm depName=opencode-ai
+ARG OPENCODE_VERSION=1.17.11
+# renovate: datasource=npm depName=@anthropic-ai/claude-code
+ARG CLAUDE_CODE_VERSION=2.1.209
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         git \
@@ -21,15 +26,25 @@ RUN apt-get update \
         build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Pi Coding Agent and PI WEB at pinned versions
-# --mount=type=cache caches npm in /root/.npm across builds
+# uv — fast Python package manager, copied from official image
+COPY --from=ghcr.io/astral-sh/uv:0.11.8@sha256:3b7b60a81d3c57ef471703e5c83fd4aaa33abcd403596fb22ab07db85ae91347 \
+    /uv /uvx /usr/local/bin/
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PYTHON_DOWNLOADS=never
+
+# Install npm-based tools at pinned versions
 RUN --mount=type=cache,target=/root/.npm \
     set -eux \
     && npm_config_retry=5 npm_config_retry_timeout=30000 \
     npm install -g \
         "@earendil-works/pi-coding-agent@${PI_CODING_AGENT_VERSION}" \
         "@jmfederico/pi-web@${PI_WEB_VERSION}" \
-    && npm list -g --depth=0
+        "opencode-ai@${OPENCODE_VERSION}" \
+        "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" \
+    && npm list -g --depth=0 \
+    && opencode --version \
+    && claude --version
 
 # Run as root so the agent can install tools (apt, npm, pip, etc.).
 # The container IS the security boundary — see SECURITY in README.md.
