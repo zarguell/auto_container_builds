@@ -378,4 +378,19 @@ RUN --mount=type=cache,target=/root/.npm \
     opencode --version
 
 
+# Copy hermes-webui source from upstream image
+# renovate: datasource=docker depName=ghcr.io/nesquena/hermes-webui
+ARG HERMES_WEBUI_TAG=v0.52.41
+COPY --from=ghcr.io/nesquena/hermes-webui:${HERMES_WEBUI_TAG} /apptoo /opt/hermes-webui/
+
+# Install webui deps into existing agent venv
+RUN /opt/hermes/.venv/bin/pip install --no-cache-dir pyyaml cryptography
+
+# Create s6 supervised service for webui
+COPY dockerfiles/hermes-webui/webui-run.sh /etc/s6-overlay/s6-rc.d/hermes-webui/run
+RUN echo longrun > /etc/s6-overlay/s6-rc.d/hermes-webui/type && touch /etc/s6-overlay/s6-rc.d/user2/contents.d/hermes-webui
+
+ENV HERMES_WEBUI_HOST=0.0.0.0 HERMES_WEBUI_PORT=8787
+
+EXPOSE 8787
 USER hermes
