@@ -382,7 +382,7 @@ RUN --mount=type=cache,target=/root/.npm \
 COPY --from=ghcr.io/nesquena/hermes-webui:latest /apptoo /opt/hermes-webui/
 
 # Install webui deps into existing agent venv
-RUN /opt/hermes/.venv/bin/pip install --no-cache-dir pyyaml cryptography
+RUN --mount=type=cache,target=/root/.cache/uv uv pip install pyyaml cryptography
 
 # Create s6 supervised service for webui
 COPY dockerfiles/hermes-webui/webui-run.sh /etc/s6-overlay/s6-rc.d/hermes-webui/run
