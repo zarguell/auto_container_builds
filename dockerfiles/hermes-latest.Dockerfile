@@ -380,8 +380,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 # Copy hermes-webui source from upstream image
 # renovate: datasource=docker depName=ghcr.io/nesquena/hermes-webui
-ARG HERMES_WEBUI_TAG=v0.52.41
-COPY --from=ghcr.io/nesquena/hermes-webui:${HERMES_WEBUI_TAG} /apptoo /opt/hermes-webui/
+COPY --from=ghcr.io/nesquena/hermes-webui:v0.52.41 /apptoo /opt/hermes-webui/
 
 # Install webui deps into existing agent venv
 RUN /opt/hermes/.venv/bin/pip install --no-cache-dir pyyaml cryptography
