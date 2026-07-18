@@ -377,25 +377,5 @@ RUN --mount=type=cache,target=/root/.npm \
     npm install -g opencode-ai@${OPENCODE_VERSION}; \
     opencode --version
 
-# renovate: datasource=npm depName=@sourcegraph/amp
-ARG AMP_VERSION=0.0.1777248626-ga45149
-# renovate: datasource=npm depName=cline
-ARG CLINE_VERSION=3.0.31
-# renovate: datasource=npm depName=@kilocode/cli
-ARG KILO_VERSION=7.3.54
-# renovate: datasource=npm depName=@google/gemini-cli
-ARG GEMINI_CLI_VERSION=0.49.0
-RUN --mount=type=cache,target=/root/.npm \
-    set -eux; \
-    npm_config_retry=5 npm_config_retry_timeout=30000 \
-    npm install -g \
-        @sourcegraph/amp@${AMP_VERSION} \
-        cline@${CLINE_VERSION} \
-        @kilocode/cli@${KILO_VERSION} \
-        @google/gemini-cli@${GEMINI_CLI_VERSION}; \
-    amp --version; \
-    cline --version; \
-    kilo --version; \
-    gemini --version
 
 USER hermes
