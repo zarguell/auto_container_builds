@@ -20,11 +20,12 @@ ENV HERMES_WEBUI_PORT=8787
 ENV HERMES_WEBUI_STATE_DIR=/home/hermes/.hermes/webui
 ENV HERMES_WEBUI_DEFAULT_WORKSPACE=/workspace
 
+# Add web UI as an s6-supervised service so the gateway, dashboard, and web UI
+# all run in one container. The base image's ENTRYPOINT /init is preserved.
+COPY dockerfiles/hermes-webui/webui-run.sh /etc/s6-overlay/s6-rc.d/hermes-webui/run
+COPY dockerfiles/hermes-webui/webui-type /etc/s6-overlay/s6-rc.d/hermes-webui/type
+RUN touch /etc/s6-overlay/s6-rc.d/user2/contents.d/hermes-webui
+
 EXPOSE 8787
 
-# Override agent image entrypoint; start webui by default
-ENTRYPOINT []
-CMD ["/opt/hermes/.venv/bin/python", "/opt/hermes-webui/server.py"]
-
-# Keep the same runtime user as the base image
 USER hermes
