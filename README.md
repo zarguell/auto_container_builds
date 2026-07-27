@@ -11,6 +11,7 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
 |---|---|---|---|
+| `zarguell/sitebox` | [zarguell/sitebox](https://github.com/zarguell/sitebox) | Sun 05:00 | linux/amd64, linux/arm64 |
 | `zarguell/typemill` | [typemill/typemill](https://github.com/typemill/typemill) | Sun 06:15 | linux/amd64, linux/arm64 |
 | `zarguell/documenso` | [documenso/documenso](https://github.com/documenso/documenso) | Sun 07:05 | linux/amd64, linux/arm64 |
 | `zarguell/monica-fpm-supervisor-alpine` | [monicahq/docker](https://github.com/monicahq/docker) | Sun 13:25 | linux/amd64, linux/arm64 |
