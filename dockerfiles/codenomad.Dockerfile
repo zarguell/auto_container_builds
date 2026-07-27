@@ -155,7 +155,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -f /tmp/fzf.tar.gz
 
 # renovate: datasource=github-releases depName=eza-community/eza
-ARG EZA_VERSION=0.23.4
+ARG EZA_VERSION=0.23.5
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
