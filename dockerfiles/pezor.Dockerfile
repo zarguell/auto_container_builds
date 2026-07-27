@@ -19,9 +19,9 @@ RUN apt-get update && \
     pip3 install --break-system-packages --no-warn-script-location xortool && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Clone repo, patch install.sh to fix PEP 668, sudo, and go install, then run it
+# Clone repo, patch install.sh to fix PEP 668 and sudo, then run it
+# Note: 'go install ...@latest' is the modern Go form (Go 1.16+) — no sed needed
 RUN git clone https://github.com/phra/PEzor.git /app/PEzor && \
-    sed -i 's/go install/go get/' /app/PEzor/install.sh && \
     sed -i 's/sudo //g' /app/PEzor/install.sh && \
     sed -i 's|pip3 install --no-warn-script-location|pip3 install --break-system-packages --no-warn-script-location|' /app/PEzor/install.sh && \
     /app/PEzor/install.sh
