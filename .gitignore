@@ -1,0 +1,6 @@
+# Local dev-box runtime state (created by compose.yaml)
+/projects/
+/state/
+
+# macOS
+.DS_Store

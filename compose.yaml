@@ -1,0 +1,30 @@
+# dev in a box — OpenHands Agent Canvas + Pi coding agent + pi-acp + dev tools
+#
+#   docker compose up --build          → Agent Canvas on http://localhost:8000
+#   docker compose run --rm dev-box shell   → raw interactive dev shell (pi, python, npm, ...)
+#
+# Mounts:
+#   ./projects             working code the agents can read/write
+#   ./state/openhands      Agent Canvas settings/secrets/conversations
+#   ./state/pi             Pi config, credentials, sessions
+#
+# Runs as non-root user `coder` (uid 1000) with passwordless sudo; set
+# PUID/PGID to your host uid/gid if the mounted dirs end up root-owned
+# (Linux hosts).
+services:
+  dev-box:
+    build:
+      context: ./dockerfiles/dev-box
+      dockerfile: dev-box.Dockerfile
+    image: dev-box:local
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./projects:/projects
+      - ./state/openhands:/home/coder/.openhands
+      - ./state/pi:/home/coder/.pi
+    environment:
+      PORT: "8000"
+      PUID: "1000"
+      PGID: "1000"
+    restart: unless-stopped
