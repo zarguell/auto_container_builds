@@ -24,7 +24,9 @@ ARG PI_CODING_AGENT_VERSION=0.83.0
 # renovate: datasource=npm depName=@oh-my-pi/pi-coding-agent
 ARG OMP_VERSION=17.2.8
 # bun — omp's runtime (@oh-my-pi/pi-coding-agent requires bun >= 1.3.14;
-# agent-canvas still needs Node, so both runtimes ship side by side)
+# agent-canvas still needs Node, so both runtimes ship side by side).
+# npm datasource: the github-releases tags are "bun-vX.Y.Z" which the
+# regex manager can't version cleanly.
 # renovate: datasource=npm depName=bun
 ARG BUN_VERSION=1.3.14
 
@@ -71,6 +73,25 @@ COPY --from=ghcr.io/astral-sh/uv:0.11.8@sha256:3b7b60a81d3c57ef471703e5c83fd4aaa
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
 
+# ── Bun — omp's runtime ────────────────────────────────────────────
+# The standard amd64 prebuilt requires AVX2, which older NAS CPUs
+# (e.g. Celeron J4125) lack — SIGILL at runtime. amd64 therefore gets the
+# baseline build (x86-64 baseline, no AVX2); arm64 has no such split.
+# TARGETARCH is provided by buildx during multi-platform builds.
+ARG TARGETARCH
+RUN set -eux \
+    && case "${TARGETARCH}" in \
+         amd64) asset="bun-linux-x64-baseline.zip"; dir="bun-linux-x64-baseline" ;; \
+         arm64) asset="bun-linux-aarch64.zip"; dir="bun-linux-aarch64" ;; \
+         *) echo "unsupported architecture: ${TARGETARCH}"; exit 1 ;; \
+       esac \
+    && curl -fsSL -o /tmp/bun.zip \
+        "https://github.com/oven-sh/bun/releases/download/bun-v${BUN_VERSION}/${asset}" \
+    && unzip -q /tmp/bun.zip -d /tmp/bun-extract \
+    && install -m 0755 "/tmp/bun-extract/${dir}/bun" /usr/local/bin/bun \
+    && rm -rf /tmp/bun.zip /tmp/bun-extract \
+    && bun --version
+
 # ── npm tools at pinned versions (system-wide, root-owned) ─────────
 RUN --mount=type=cache,target=/root/.npm \
     set -eux \
@@ -79,12 +100,10 @@ RUN --mount=type=cache,target=/root/.npm \
         "@openhands/agent-canvas@${AGENT_CANVAS_VERSION}" \
         "@earendil-works/pi-coding-agent@${PI_CODING_AGENT_VERSION}" \
         "@oh-my-pi/pi-coding-agent@${OMP_VERSION}" \
-        "bun@${BUN_VERSION}" \
     && npm list -g --depth=0 \
     && agent-canvas --version \
     && pi --version \
-    && omp --version \
-    && bun --version
+    && omp --version
 
 # ── Non-root dev user with passwordless sudo (code-server style) ───
 # Base node image ships a `node` user at uid 1000 — rename it to coder
