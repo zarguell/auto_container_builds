@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:1
-# dev-box — "dev in a box": OpenHands Agent Canvas + Pi coding agent + pi-acp
-# plus a full local dev toolchain (python3, uv, node/npm, git, tmux, ...).
+# dev-box — "dev in a box": OpenHands Agent Canvas + Pi coding agent + oh-my-pi
+# plus a full local dev toolchain (python3, uv, node/npm, bun, git, tmux, ...).
 #
 # Default mode (entrypoint, no args) runs Agent Canvas: an ingress proxy on
 # :8000 routing to the agent-server (:18000) and automation backend (:18001),
 # both spawned via uvx. `docker compose run --rm dev-box shell` gives a raw
-# interactive dev shell instead. Pi (via `pi-acp`) is wired into Canvas from
-# Settings → Agent → ACP → Custom with command `pi-acp`.
+# interactive dev shell instead. oh-my-pi (omp) speaks ACP natively — wire it
+# into Canvas from Settings → Agent → ACP → Custom with command `omp --mode acp`.
 #
 # Runs as a non-root `coder` user (uid/gid 1000) with passwordless sudo, like
 # the code-server containers. The entrypoint (running as root) remaps
@@ -21,8 +21,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG AGENT_CANVAS_VERSION=1.9.0
 # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
 ARG PI_CODING_AGENT_VERSION=0.83.0
-# renovate: datasource=npm depName=pi-acp
-ARG PI_ACP_VERSION=0.0.33
+# renovate: datasource=npm depName=@oh-my-pi/pi-coding-agent
+ARG OMP_VERSION=17.2.8
+# bun — omp's runtime (@oh-my-pi/pi-coding-agent requires bun >= 1.3.14;
+# agent-canvas still needs Node, so both runtimes ship side by side)
+# renovate: datasource=npm depName=bun
+ARG BUN_VERSION=1.3.14
 
 # These are the PyPI packages agent-canvas spawns via uvx at runtime.
 # They must stay in sync with config/defaults.json inside the
@@ -74,11 +78,13 @@ RUN --mount=type=cache,target=/root/.npm \
     npm install -g \
         "@openhands/agent-canvas@${AGENT_CANVAS_VERSION}" \
         "@earendil-works/pi-coding-agent@${PI_CODING_AGENT_VERSION}" \
-        "pi-acp@${PI_ACP_VERSION}" \
+        "@oh-my-pi/pi-coding-agent@${OMP_VERSION}" \
+        "bun@${BUN_VERSION}" \
     && npm list -g --depth=0 \
     && agent-canvas --version \
     && pi --version \
-    && pi-acp --version
+    && omp --version \
+    && bun --version
 
 # ── Non-root dev user with passwordless sudo (code-server style) ───
 # Base node image ships a `node` user at uid 1000 — rename it to coder
@@ -117,6 +123,7 @@ RUN set -eux \
 #   /projects              → working code (agents read/write it)
 #   /home/coder/.openhands → Agent Canvas settings, secrets, conversations
 #   /home/coder/.pi        → Pi config, credentials, sessions
+#   /home/coder/.omp       → oh-my-pi config, provider credentials, sessions
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 USER root

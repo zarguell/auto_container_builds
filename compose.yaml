@@ -1,12 +1,15 @@
-# dev in a box — OpenHands Agent Canvas + Pi coding agent + pi-acp + dev tools
+# dev in a box — OpenHands Agent Canvas + Pi coding agent + oh-my-pi (omp) + dev tools
 #
 #   docker compose up --build          → Agent Canvas on http://localhost:8000
-#   docker compose run --rm dev-box shell   → raw interactive dev shell (pi, python, npm, ...)
+#   docker compose run --rm dev-box shell   → raw interactive dev shell (pi, omp, python, npm, bun, ...)
+#
+# Wire omp into Agent Canvas: Settings → Agent → ACP → Custom, command `omp --mode acp`
 #
 # Mounts:
 #   ./projects             working code the agents can read/write
 #   ./state/openhands      Agent Canvas settings/secrets/conversations
 #   ./state/pi             Pi config, credentials, sessions
+#   ./state/omp            oh-my-pi (omp) config, provider credentials, sessions
 #
 # Runs as non-root user `coder` (uid 1000) with passwordless sudo; set
 # PUID/PGID to your host uid/gid if the mounted dirs end up root-owned
@@ -23,6 +26,7 @@ services:
       - ./projects:/projects
       - ./state/openhands:/home/coder/.openhands
       - ./state/pi:/home/coder/.pi
+      - ./state/omp:/home/coder/.omp
     environment:
       PORT: "8000"
       PUID: "1000"
