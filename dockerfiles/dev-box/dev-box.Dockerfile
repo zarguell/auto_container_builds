@@ -119,7 +119,11 @@ RUN set -eux \
     && chmod 440 /etc/sudoers.d/coder \
     && mkdir -p /projects /home/coder/.openhands /home/coder/.pi /home/coder/.omp \
         /opt/uv-cache /opt/uv-python \
-    && chown -R coder:coder /projects /home/coder /opt/uv-cache /opt/uv-python
+    && chown -R coder:coder /projects /home/coder /opt/uv-cache /opt/uv-python \
+    && printf '%s\n' \
+        '# dev-box persists /home/coder — keep user-local bins on PATH' \
+        'export PATH="$HOME/.local/bin:$HOME/.bun/bin:$HOME/bin:$PATH"' \
+        >> /home/coder/.bashrc
 
 # ── Pre-warm uvx environments (as coder, so the wheel cache lands in
 #    /opt/uv-cache and survives into the image) ─────────────────────
@@ -162,7 +166,11 @@ COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 USER root
 WORKDIR /projects
-ENV PORT=8000
+# Home bin dirs on PATH for EVERY process (agents spawn non-interactive shells
+# that never read .bashrc — only the container env). pip --user / uv tool
+# installs → ~/.local/bin, bun add -g → ~/.bun/bin, scripts → ~/bin.
+ENV PATH="/home/coder/.local/bin:/home/coder/.bun/bin:/home/coder/bin:${PATH}" \
+    PORT=8000
 
 EXPOSE 8000 18000 18001
 
