@@ -70,8 +70,12 @@ RUN apt-get update \
 # ── uv — fast Python package manager, copied from official image ───
 COPY --from=ghcr.io/astral-sh/uv:0.11.8@sha256:3b7b60a81d3c57ef471703e5c83fd4aaa33abcd403596fb22ab07db85ae91347 \
     /uv /uvx /usr/local/bin/
+# Cache + managed pythons live OUTSIDE /home/coder so a full-home bind mount
+# doesn't shadow the baked wheels (they stay a build artifact, not user data).
 ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+    UV_LINK_MODE=copy \
+    UV_CACHE_DIR=/opt/uv-cache \
+    UV_PYTHON_INSTALL_DIR=/opt/uv-python
 
 # ── Bun — omp's runtime ────────────────────────────────────────────
 # The standard amd64 prebuilt requires AVX2, which older NAS CPUs
@@ -113,11 +117,12 @@ RUN set -eux \
     && usermod --login coder --move-home --home /home/coder --shell /bin/bash node \
     && echo "coder ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/coder \
     && chmod 440 /etc/sudoers.d/coder \
-    && mkdir -p /projects /home/coder/.openhands /home/coder/.pi \
-    && chown -R coder:coder /projects /home/coder
+    && mkdir -p /projects /home/coder/.openhands /home/coder/.pi /home/coder/.omp \
+        /opt/uv-cache /opt/uv-python \
+    && chown -R coder:coder /projects /home/coder /opt/uv-cache /opt/uv-python
 
 # ── Pre-warm uvx environments (as coder, so the wheel cache lands in
-#    /home/coder/.cache/uv and survives into the image) ─────────────
+#    /opt/uv-cache and survives into the image) ─────────────────────
 # `python -c "print(...)"` forces uv to resolve and install the ephemeral
 # environment; the argument sets must match what scripts/dev-safe.mjs /
 # dev-with-automation.mjs build at runtime. Intentionally NOT a cache
@@ -136,13 +141,23 @@ RUN set -eux \
         --from "openhands-automation==${AUTOMATION_VERSION}" \
         python -c "print('automation env warmed')"
 
+# ── Home skeleton ──────────────────────────────────────────────────
+# /home/coder is bind-mounted for persistence; the entrypoint seeds a
+# fresh/empty mount from this small baked skeleton (shell rc files, empty
+# state dirs). The heavy wheel cache lives at /opt/uv-cache, not in home.
+USER root
+RUN set -eux \
+    && cp -a /home/coder /opt/home-skel \
+    && chown -R root:root /opt/home-skel
+
 # ── Runtime layout ─────────────────────────────────────────────────
-# Entrypoint runs as root so it can remap PUID/PGID + chown mounts, then
-# drops to coder via setpriv. State persists via mounts:
+# Entrypoint runs as root so it can remap PUID/PGID + chown mounts, seed a
+# fresh home, then drops to coder via setpriv. Persistence via mounts:
 #   /projects              → working code (agents read/write it)
-#   /home/coder/.openhands → Agent Canvas settings, secrets, conversations
-#   /home/coder/.pi        → Pi config, credentials, sessions
-#   /home/coder/.omp       → oh-my-pi config, provider credentials, sessions
+#   /home/coder            → full dev user home: .openhands (Agent Canvas
+#                            settings/secrets/conversations), .pi (Pi creds),
+#                            .omp (oh-my-pi creds), shell config, ssh keys…
+# The uv wheel cache (/opt/uv-cache) is a baked build artifact, not user data.
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 USER root

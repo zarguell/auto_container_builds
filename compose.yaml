@@ -7,9 +7,9 @@
 #
 # Mounts:
 #   ./projects             working code the agents can read/write
-#   ./state/openhands      Agent Canvas settings/secrets/conversations
-#   ./state/pi             Pi config, credentials, sessions
-#   ./state/omp            oh-my-pi (omp) config, provider credentials, sessions
+#   ./state/home           the full coder home — Agent Canvas state
+#                          (.openhands), Pi (.pi), oh-my-pi (.omp), shell
+#                          config, ssh keys, anything user-local
 #
 # Runs as non-root user `coder` (uid 1000) with passwordless sudo; set
 # PUID/PGID to your host uid/gid if the mounted dirs end up root-owned
@@ -24,9 +24,7 @@ services:
       - "8000:8000"
     volumes:
       - ./projects:/projects
-      - ./state/openhands:/home/coder/.openhands
-      - ./state/pi:/home/coder/.pi
-      - ./state/omp:/home/coder/.omp
+      - ./state/home:/home/coder
     environment:
       PORT: "8000"
       PUID: "1000"

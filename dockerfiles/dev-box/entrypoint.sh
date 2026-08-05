@@ -24,17 +24,25 @@ if [ "$(id -u)" = "0" ]; then
     echo "dev-box: remapping coder to ${PUID}:${PGID} (one-time chown, ~30s)"
     sed -i "s/^\\(coder:x:\\)[0-9]*:[0-9]*:/\\1${PUID}:${PGID}:/" /etc/passwd
     sed -i "s/^\\(coder:x:\\)[0-9]*:/\\1${PGID}:/" /etc/group
-    # Parallel chown of the baked home (uv cache ≈ 94k files); sequential
+    # Parallel chown of the baked uv cache (≈94k files); sequential
     # chown -R takes ~80s under Docker Desktop's overlayfs.
-    find /home/coder -print0 | xargs -0 -P "$(nproc)" -n 100 chown -h coder:coder
+    find /home/coder /opt/uv-cache /opt/uv-python -print0 | xargs -0 -P "$(nproc)" -n 100 chown -h coder:coder
   fi
   # Mounted workspace + state dirs must be writable by the dev user.
   # Ownership guard skips the scan when the mount already matches.
-  for d in /projects /home/coder/.openhands /home/coder/.pi; do
+  for d in /projects /home/coder/.openhands /home/coder/.pi /home/coder/.omp; do
     if [ -d "${d}" ] && [ "$(stat -c %u "${d}" 2>/dev/null || echo -1)" != "${PUID}" ]; then
       chown -R coder:coder "${d}"
     fi
   done
+  # Seed a fresh/empty home mount from the small baked skeleton (shell rc
+  # files, empty state dirs). The heavy uv wheel cache lives at /opt/uv-cache
+  # in the image layer, so seeding stays instant.
+  if [ -z "$(ls -A /home/coder 2>/dev/null)" ]; then
+    echo "dev-box: seeding fresh home from /opt/home-skel"
+    cp -a /opt/home-skel/. /home/coder/
+    chown -R coder:coder /home/coder
+  fi
 fi
 
 case "${1:-}" in
