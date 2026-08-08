@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
 ARG PI_CODING_AGENT_VERSION=0.80.7
 # renovate: datasource=npm depName=@jmfederico/pi-web
-ARG PI_WEB_VERSION=1.202607.0
+ARG PI_WEB_VERSION=1.202607.3
 
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.18.3
