@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: openclaw/openclaw
-          ref: v2026.6.9  # or lock to a stable tag like '2026.1.30' for safety
+          ref: v2026.7.1  # or lock to a stable tag like '2026.1.30' for safety
           path: openclaw-src
 
       -
