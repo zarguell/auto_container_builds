@@ -1,3 +1,5 @@
+
+
 # Automatic Container Builds
 
 GitHub Actions that build and push Docker images to DockerHub on a weekly schedule. The purpose is to provide multi-arch images for projects where the maintainer doesn't publish official builds, or where official builds are missing specific architectures.
@@ -31,7 +33,7 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/openclaw` | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Sun 07:45 | linux/amd64, linux/arm64 |
 | `zarguell/pi-web-agent` | [zarguell/pi-web-agent](https://github.com/zarguell/pi-web-agent) | Sun 16:50 | linux/amd64, linux/arm64 |
 | `zarguell/dev-box` | [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) Agent Canvas + [earendil-works/pi](https://github.com/earendil-works/pi) + [can1357/oh-my-pi](https://github.com/can1357/oh-my-pi) | Sun 16:55 | linux/amd64, linux/arm64 |
-|| `zarguell/hermes-webui` | [nesquena/hermes-webui](https://github.com/nesquena/hermes-webui) | Sun 07:55 | linux/amd64 |
+| `zarguell/hermes-webui` | [nesquena/hermes-webui](https://github.com/nesquena/hermes-webui) | Sun 07:55 | linux/amd64 |
 
 ### Security & AD Tools (Active)
 
