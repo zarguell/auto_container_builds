@@ -300,7 +300,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -rf /tmp/gogcli.tar.gz /tmp/gogcli_checksums.txt /tmp/gogcli-extract
 
 # renovate: datasource=github-releases depName=pimalaya/himalaya
-ARG HIMALAYA_VERSION=1.2.0
+ARG HIMALAYA_VERSION=2.1.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
