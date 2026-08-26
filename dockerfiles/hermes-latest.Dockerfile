@@ -235,7 +235,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -rf /tmp/sd-extract /tmp/sd.tar.gz
 
 # renovate: datasource=github-releases depName=ajeetdsouza/zoxide
-ARG ZOXIDE_VERSION=0.9.9
+ARG ZOXIDE_VERSION=0.10.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
