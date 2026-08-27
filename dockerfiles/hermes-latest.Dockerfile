@@ -176,7 +176,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -rf /tmp/eza /tmp/eza.tar.gz
 
 # renovate: datasource=github-releases depName=bootandy/dust
-ARG DUST_VERSION=1.2.4
+ARG DUST_VERSION=1.2.5
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
