@@ -35,7 +35,7 @@ ARG BUN_VERSION=1.4.0
 # @openhands/agent-canvas package (versions + the agent-client-protocol
 # upper-bound constraint).
 # renovate: datasource=pypi depName=openhands-agent-server
-ARG AGENT_SERVER_VERSION=1.42.1
+ARG AGENT_SERVER_VERSION=1.43.0
 # renovate: datasource=pypi depName=openhands-automation
 ARG AUTOMATION_VERSION=1.8.0
 
