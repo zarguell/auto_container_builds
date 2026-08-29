@@ -18,7 +18,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # ── Version pins (renovate-managed) ────────────────────────────────
 # renovate: datasource=npm depName=@openhands/agent-canvas
-ARG AGENT_CANVAS_VERSION=1.14.0
+ARG AGENT_CANVAS_VERSION=1.15.0
 # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
 ARG PI_CODING_AGENT_VERSION=0.84.2
 # renovate: datasource=npm depName=@oh-my-pi/pi-coding-agent
