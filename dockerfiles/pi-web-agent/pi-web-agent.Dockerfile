@@ -10,7 +10,7 @@ ARG PI_CODING_AGENT_VERSION=0.84.3
 ARG PI_WEB_VERSION=1.202608.2
 
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.18.22
+ARG OPENCODE_VERSION=1.18.23
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
 ARG CLAUDE_CODE_VERSION=2.1.243
 
