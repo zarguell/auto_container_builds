@@ -22,7 +22,7 @@ ARG AGENT_CANVAS_VERSION=1.15.0
 # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
 ARG PI_CODING_AGENT_VERSION=0.84.3
 # renovate: datasource=npm depName=@oh-my-pi/pi-coding-agent
-ARG OMP_VERSION=18.0.4
+ARG OMP_VERSION=18.0.5
 # bun — omp's runtime (@oh-my-pi/pi-coding-agent requires bun >= 1.3.14;
 # agent-canvas still needs Node, so both runtimes ship side by side).
 # npm datasource: the github-releases tags are "bun-vX.Y.Z" which the
