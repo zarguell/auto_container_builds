@@ -131,7 +131,7 @@ RUN --mount=type=cache,target=/tmp/tool-cache \
     rm -rf /tmp/bat-extract /tmp/bat.tar.gz
 
 # renovate: datasource=github-releases depName=sharkdp/fd
-ARG FD_VERSION=10.4.2
+ARG FD_VERSION=10.5.0
 RUN --mount=type=cache,target=/tmp/tool-cache \
     --mount=type=secret,id=github_token \
     set -eux; \
