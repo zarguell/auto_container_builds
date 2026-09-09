@@ -37,7 +37,7 @@ ARG BUN_VERSION=1.4.0
 # renovate: datasource=pypi depName=openhands-agent-server
 ARG AGENT_SERVER_VERSION=1.44.1
 # renovate: datasource=pypi depName=openhands-automation
-ARG AUTOMATION_VERSION=1.9.1
+ARG AUTOMATION_VERSION=1.10.0
 
 # ── System packages ────────────────────────────────────────────────
 RUN apt-get update \
