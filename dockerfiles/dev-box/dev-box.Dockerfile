@@ -28,7 +28,7 @@ ARG OMP_VERSION=18.1.10
 # npm datasource: the github-releases tags are "bun-vX.Y.Z" which the
 # regex manager can't version cleanly.
 # renovate: datasource=npm depName=bun
-ARG BUN_VERSION=1.4.1
+ARG BUN_VERSION=1.4.2
 
 # These are the PyPI packages agent-canvas spawns via uvx at runtime.
 # They must stay in sync with config/defaults.json inside the
