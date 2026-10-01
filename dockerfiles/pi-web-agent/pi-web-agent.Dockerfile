@@ -12,7 +12,7 @@ ARG PI_WEB_VERSION=1.202609.1
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.18.32
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-ARG CLAUDE_CODE_VERSION=2.1.280
+ARG CLAUDE_CODE_VERSION=2.1.281
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
