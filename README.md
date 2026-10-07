@@ -19,20 +19,6 @@ GitHub Actions that build and push Docker images to DockerHub on a weekly schedu
 | `zarguell/firefly-iii-email-summary` | [davidschlachter/firefly-iii-email-summary](https://github.com/davidschlachter/firefly-iii-email-summary) | Sun 09:05 | linux/amd64, linux/arm64 |
 | `zarguell/whosatmyfeeder` | [mmcc-xx/WhosAtMyFeeder](https://github.com/mmcc-xx/WhosAtMyFeeder) | Sun 07:35 | linux/amd64, linux/arm64 |
 
-### AI / Agent Workspaces (Active)
-
-| Docker Image | Source Repository | Cron (UTC) | Architectures |
-|---|---|---|---|
-| `zarguell/hermes:slim` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Sun 07:50 | linux/amd64, linux/arm64 |
-| `zarguell/hermes:latest` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Sun 07:50 | linux/amd64 |
-| `zarguell/ai-workspace` | Hermes + [CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:30 | linux/amd64, linux/arm64 |
-| `zarguell/codenomad` | [NeuralNomadsAI/CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad) | Sun 07:20 | linux/amd64, linux/arm64 |
-| `zarguell/claudecode-ui` | [itsbrex/claudecode-ui](https://github.com/itsbrex/claudecode-ui) | Sun 16:45 | linux/amd64, linux/arm64 |
-| `zarguell/openclaw` | [openclaw/openclaw](https://github.com/openclaw/openclaw) | Sun 07:45 | linux/amd64, linux/arm64 |
-| `zarguell/pi-web-agent` | [zarguell/pi-web-agent](https://github.com/zarguell/pi-web-agent) | Sun 16:50 | linux/amd64, linux/arm64 |
-| `zarguell/dev-box` | [OpenHands/OpenHands](https://github.com/OpenHands/OpenHands) Agent Canvas + [earendil-works/pi](https://github.com/earendil-works/pi) + [can1357/oh-my-pi](https://github.com/can1357/oh-my-pi) | Sun 16:55 | linux/amd64, linux/arm64 |
-|| `zarguell/hermes-webui` | [nesquena/hermes-webui](https://github.com/nesquena/hermes-webui) | Sun 07:55 | linux/amd64 |
-
 ### Security & AD Tools (Active)
 
 | Docker Image | Source Repository | Cron (UTC) | Architectures |
@@ -81,14 +67,13 @@ Each container has a **Dockerfile** in `dockerfiles/` and a **GitHub Actions wor
 
 | Pattern | Description | Examples |
 |---|---|---|
-| **Source checkout** | Workflow checks out the upstream repo and builds its Dockerfile | typemill, documenso, hoppscotch, maglit, pashword, ryot, tabby-web, openclaw, monica, ghostwriter, whosatmyfeeder |
+| **Source checkout** | Workflow checks out the upstream repo and builds its Dockerfile | typemill, documenso, hoppscotch, maglit, pashword, ryot, tabby-web, monica, ghostwriter, whosatmyfeeder |
 | **Self-contained Dockerfile** | Dockerfile clones or installs from source, workflow checks out this repo only | adexplorersnapshot-bloodhound, rusthound-ce, shredhound, sccmhunter, pezor, firefly-iii-email-summary |
-| **Base image extension** | Extends an existing image with additional tools | hermes:latest, hermes:slim, ai-workspace, codenomad, claudecode-ui, pi-web-agent, hermes-webui |
+| **Base image extension** | Extends an existing image with additional tools | — none currently |
 
 ### Architecture Notes
 
 - **linux/arm64 only**: ryot, beelzebub (upstream only publishes amd64)
-- **linux/amd64 only**: hermes:latest (full tooling, single-arch for faster builds)
 - All others build for **both** amd64 and arm64 via QEMU emulation + Docker buildx
 
 ---
@@ -99,11 +84,6 @@ Each container has a **Dockerfile** in `dockerfiles/` and a **GitHub Actions wor
 auto_container_builds/
 ├── dockerfiles/                          # One Dockerfile per container
 │   ├── *.Dockerfile                      # Individual Dockerfiles
-│   ├── ai-workspace/                     # Support files for ai-workspace
-│   │   └── supervisord.conf
-│   └── claudecode-ui/                    # Support files for claudecode-ui
-│       ├── entrypoint.sh
-│       └── healthcheck.js
 ├── .github/
 │   ├── workflows/                        # One workflow per container
 │   │   ├── *.yml                         # Build workflows
