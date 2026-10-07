@@ -20,7 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # renovate: datasource=npm depName=@openhands/agent-canvas
 ARG AGENT_CANVAS_VERSION=1.24.0
 # renovate: datasource=npm depName=@earendil-works/pi-coding-agent
-ARG PI_CODING_AGENT_VERSION=0.87.1
+ARG PI_CODING_AGENT_VERSION=0.99.1
 # renovate: datasource=npm depName=@oh-my-pi/pi-coding-agent
 ARG OMP_VERSION=18.4.4
 # bun — omp's runtime (@oh-my-pi/pi-coding-agent requires bun >= 1.3.14;
