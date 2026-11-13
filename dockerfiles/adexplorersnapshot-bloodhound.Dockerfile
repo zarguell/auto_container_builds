@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM python:3.14-slim-bookworm@sha256:48b13b003dda20b16f9442b8475aa05fe21bf6579a8c881db92ffb4d8fd20f83 AS build
+FROM python:3.15-slim-bookworm@sha256:96599df822d0e1c6bb700014a05c7f3c8cabc6e0f7ff3c4f9f69cee033b4b5d9 AS build
 
 # Install necessary packages for building Python packages and common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -42,7 +42,7 @@ RUN python3 -m venv /app/venv \
     && pip install --no-cache-dir .
 
 # Stage 2: Runtime stage
-FROM python:3.14-slim-bookworm@sha256:48b13b003dda20b16f9442b8475aa05fe21bf6579a8c881db92ffb4d8fd20f83
+FROM python:3.15-slim-bookworm@sha256:96599df822d0e1c6bb700014a05c7f3c8cabc6e0f7ff3c4f9f69cee033b4b5d9
 
 # Install runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
